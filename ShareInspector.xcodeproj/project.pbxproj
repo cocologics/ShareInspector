@@ -15,6 +15,9 @@
 		5DDBB6F222E5CA6400BEA421 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */; };
 		5DDBB6F522E5CA6400BEA421 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6F322E5CA6400BEA421 /* MainInterface.storyboard */; };
 		5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5DDBB6FF22E5DE7E00BEA421 /* SharedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6FE22E5DE7E00BEA421 /* SharedItemCell.swift */; };
+		5DDBB70122E5EE3C00BEA421 /* AttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB70022E5EE3C00BEA421 /* AttachmentCell.swift */; };
+		5DDBB70322E5EF3400BEA421 /* OverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB70222E5EF3400BEA421 /* OverviewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5DDBB6F422E5CA6400BEA421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		5DDBB6F622E5CA6400BEA421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DDBB6FE22E5DE7E00BEA421 /* SharedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedItemCell.swift; sourceTree = "<group>"; };
+		5DDBB70022E5EE3C00BEA421 /* AttachmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCell.swift; sourceTree = "<group>"; };
+		5DDBB70222E5EF3400BEA421 /* OverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +113,9 @@
 		5DDBB6F022E5CA6400BEA421 /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
+				5DDBB70022E5EE3C00BEA421 /* AttachmentCell.swift */,
+				5DDBB70222E5EF3400BEA421 /* OverviewCell.swift */,
+				5DDBB6FE22E5DE7E00BEA421 /* SharedItemCell.swift */,
 				5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */,
 				5DDBB6F322E5CA6400BEA421 /* MainInterface.storyboard */,
 				5DDBB6F622E5CA6400BEA421 /* Info.plist */,
@@ -225,7 +234,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DDBB70322E5EF3400BEA421 /* OverviewCell.swift in Sources */,
+				5DDBB70122E5EE3C00BEA421 /* AttachmentCell.swift in Sources */,
 				5DDBB6F222E5CA6400BEA421 /* ShareViewController.swift in Sources */,
+				5DDBB6FF22E5DE7E00BEA421 /* SharedItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
