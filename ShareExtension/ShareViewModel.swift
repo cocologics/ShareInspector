@@ -1,5 +1,6 @@
 import Foundation
 
+/// A section in a table or collection view.
 protocol SectionViewModel {
   var rowCount: Int { get }
   var sectionTitle: String? { get }
@@ -39,9 +40,11 @@ struct AttachmentsSectionViewModel: SectionViewModel {
   }
 }
 
+/// View model for ShareViewController
 struct ShareViewModel {
   var sections: [SectionViewModel]
 
+  /// View model for ShareViewController
   init(extensionContext: NSExtensionContext?) {
     var sections: [SectionViewModel] = []
 
@@ -67,7 +70,10 @@ struct ShareViewModel {
       Share extension received \(sharedItems.count) shared \(sharedItems.count == 1 ? "item" : "items").
       """))
 
-    // Create content for all shared items
+    // Sections for the shared items
+    // For each shared item, we create:
+    // - An overview section with the data provided by NSExtensionItem.
+    // - An attachments section that lists all attachments (NSItemProvider) of the shared item.
     for (counter, sharedItem) in zip(1..., sharedItems) {
       let attachments = sharedItem.attachments ?? []
 
