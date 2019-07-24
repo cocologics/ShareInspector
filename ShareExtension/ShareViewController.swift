@@ -1,5 +1,4 @@
 import UIKit
-import Social
 
 protocol SectionViewModel {
   var rowCount: Int { get }
