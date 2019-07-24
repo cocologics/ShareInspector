@@ -54,13 +54,5 @@ extension ShareViewController: UITableViewDataSource {
       return tableView.dequeueReusableCell(withIdentifier: "UnknownCell", for: indexPath)
     }
 
-//    cell.textLabel?.text = "\(attachments.count) \(attachments.count == 1 ? "attachment" : "attachments")"
-//    cell.detailTextLabel?.text = String(describing: attachments.map { itemProvider in
-//      itemProvider.registeredTypeIdentifiers
-//    })
   }
-}
-
-extension ShareViewController: UITabBarDelegate {
-
 }
