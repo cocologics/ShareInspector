@@ -47,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewModel.swift; sourceTree = "<group>"; };
+		5D74E33C22E85ADD00EFF3AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5DDBB6C322E5C89F00BEA421 /* ShareInspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareInspector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DDBB6C822E5C89F00BEA421 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		5DDBB6BA22E5C89F00BEA421 = {
 			isa = PBXGroup;
 			children = (
+				5D74E33C22E85ADD00EFF3AA /* README.md */,
 				5DDBB6C522E5C89F00BEA421 /* ShareInspector */,
 				5DDBB6F022E5CA6400BEA421 /* ShareExtension */,
 				5DDBB6C422E5C89F00BEA421 /* Products */,
