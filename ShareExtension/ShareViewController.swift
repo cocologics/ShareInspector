@@ -45,6 +45,13 @@ extension ShareViewController: UITableViewDataSource {
     }
 
     let cell = tableView.dequeueReusableCell(withIdentifier: descriptor.reuseIdentifier, for: indexPath)
+    if let resizingCell = cell as? ResizingCell {
+      resizingCell.cellDidResize = { [weak tableView] in
+        guard let tableView = tableView else { return }
+        tableView.beginUpdates()
+        tableView.endUpdates()
+      }
+    }
     descriptor.configure(cell)
     return cell
   }

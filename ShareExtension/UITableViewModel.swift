@@ -35,3 +35,7 @@ protocol ReusableCell {
   /// Should be true for cells that are created in code.
   static var shouldRegisterCellClassWithTableView: Bool { get }
 }
+
+protocol ResizingCell: UITableViewCell {
+  var cellDidResize: (() -> ())? { get set }
+}

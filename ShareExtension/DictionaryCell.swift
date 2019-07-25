@@ -2,16 +2,26 @@ import UIKit
 
 /// A UITableViewCell that displays a label and the contents of a dictionary.
 /// The dictionary keys must be strings.
-final class DictionaryCell: UITableViewCell, ReusableCell {
+final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   static let reuseIdentifier = "DictionaryCell"
   static var shouldRegisterCellClassWithTableView = false
 
   @IBOutlet var label: UILabel!
   /// The stack view in which the elements of the dictionary are displayed
   @IBOutlet var elementsStack: UIStackView!
+  @IBOutlet var collapseButton: UIButton!
 
   var viewModel: LabeledValue<[String: Any]?>? {
     didSet { updateUI() }
+  }
+
+  var cellDidResize: (() -> ())?
+
+  var isCollapsed = true {
+    didSet {
+      updateUI()
+      cellDidResize?()
+    }
   }
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -25,15 +35,27 @@ final class DictionaryCell: UITableViewCell, ReusableCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
+    label.preferredMaxLayoutWidth = CGFloat.greatestFiniteMagnitude
     updateUI()
   }
 
   override func prepareForReuse() {
     super.prepareForReuse()
     viewModel = nil
+    cellDidResize = nil
+  }
+
+  @IBAction func toggleCollapse() {
+    self.isCollapsed.toggle()
   }
 
   private func updateUI() {
+    elementsStack.isHidden = isCollapsed
+    collapseButton.setTitle(isCollapsed ? "Expand" : "Collapse", for: .normal)
+
+    for subview in elementsStack.arrangedSubviews {
+      subview.removeFromSuperview()
+    }
     if let viewModel = viewModel {
       label.text = viewModel.label
       if let dict = viewModel.value {
@@ -42,18 +64,12 @@ final class DictionaryCell: UITableViewCell, ReusableCell {
           .map(DictionaryCell.makeSubStack(element:))
         subStacks.forEach(elementsStack.addArrangedSubview)
       } else {
-        for subview in elementsStack.arrangedSubviews {
-          subview.removeFromSuperview()
-        }
         let nilLabel = UILabel()
         nilLabel.text = "(nil)"
         elementsStack.addArrangedSubview(nilLabel)
       }
     } else {
       label.text = nil
-      for subview in elementsStack.arrangedSubviews {
-        subview.removeFromSuperview()
-      }
     }
   }
 
