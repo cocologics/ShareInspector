@@ -1,6 +1,8 @@
 import Foundation
 import UIKit
 
+typealias LoadImageHandler = (_ preferredSize: CGSize, _ callback: @escaping (Result<UIImage, Error>) -> ()) -> ()
+
 struct LabeledValue<Value> {
   var label: String
   var value: Value
@@ -22,6 +24,14 @@ extension LabeledValue where Value == Text {
 extension LabeledValue where Value == [String: Any]? {
   var cellDescriptor: CellDescriptor {
     return CellDescriptor { (cell: DictionaryCell) in
+      cell.viewModel = self
+    }
+  }
+}
+
+extension LabeledValue where Value == LoadImageHandler {
+  var cellDescriptor: CellDescriptor {
+    return CellDescriptor { (cell: ImageCell) in
       cell.viewModel = self
     }
   }
@@ -136,14 +146,12 @@ extension ShareViewModel {
   }
 
   struct Attachment: Section {
-    typealias LoadPreviewImage = (_ preferredSize: CGSize, _ callback: @escaping (Result<UIImage, Error>) -> ()) -> ()
-
     var itemNumber: Int
     var attachmentNumber: Int
     var attachmentCount: Int
     var registeredTypeIdentifiers: [String]
     var suggestedName: String?
-    var loadPreviewImage: LoadPreviewImage
+    var loadPreviewImage: LoadImageHandler
 
     init(itemNumber: Int, attachmentNumber: Int, attachmentCount: Int, itemProvider: NSItemProvider) {
       self.itemNumber = itemNumber
@@ -165,6 +173,9 @@ extension ShareViewModel {
         .joined(separator: "\n")
       return [
         LabeledValue(
+          label: "Preview Image",
+          value: loadPreviewImage).cellDescriptor,
+        LabeledValue(
           label: "registeredTypeIdentifiers",
           value: Text.plain(typeIdentifiersList)).cellDescriptor,
         LabeledValue(
@@ -173,8 +184,8 @@ extension ShareViewModel {
       ]
     }
 
-    private static func makeLoadPreviewImageHandler(itemProvider: NSItemProvider) -> LoadPreviewImage {
-      let loadPreviewImage: Attachment.LoadPreviewImage = { preferredSize, callback in
+    private static func makeLoadPreviewImageHandler(itemProvider: NSItemProvider) -> LoadImageHandler {
+      let loadPreviewImage: LoadImageHandler = { preferredSize, callback in
         let options: [AnyHashable: Any] = [
           NSItemProviderPreferredImageSizeKey: NSValue(cgSize: preferredSize)
         ]
@@ -198,10 +209,16 @@ extension ShareViewModel {
 }
 
 struct ShareInspectorError: Error {
+  enum Code {
+    case unableToCastToUIImage
+    case noPreviewImageProvided
+  }
+
+  var code: Code
   var message: String
 
   static func unableToCastToUIImage(actualType: String) -> ShareInspectorError {
-    return ShareInspectorError(message: "Expected preview image to be UIImage, host app provided \(actualType)")
+    return ShareInspectorError(code: .unableToCastToUIImage, message: "Expected preview image to be UIImage, host app provided \(actualType)")
   }
-  static let noPreviewImageProvided = ShareInspectorError(message: "Host app provided no preview image")
+  static let noPreviewImageProvided = ShareInspectorError(code: .noPreviewImageProvided, message: "Host app provided no preview image")
 }

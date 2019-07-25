@@ -106,6 +106,58 @@
                                             <outlet property="label" destination="LRt-yX-Y3J" id="PHI-yu-ZLd"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageCell" id="vlh-BV-XUa" customClass="ImageCell" customModule="ShareExtension" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="232" width="414" height="122.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vlh-BV-XUa" id="Etq-fh-hOM">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="122.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Au7-0h-Icq">
+                                                    <rect key="frame" x="20" y="11" width="374" height="100.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="WWI-rS-3EZ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="269" height="45"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="300" verticalHuggingPriority="300" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2O3-la-lBX">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="269" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="200" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5A-p4-sAf">
+                                                                    <rect key="frame" x="0.0" y="24.5" width="269" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="olJ-iR-Afl">
+                                                            <rect key="frame" x="273" y="0.0" width="101" height="100"/>
+                                                            <color key="backgroundColor" cocoaTouchSystemColor="secondarySystemFillColor"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="olJ-iR-Afl" secondAttribute="height" constant="1" id="Oko-fR-Y3B"/>
+                                                                <constraint firstAttribute="height" constant="100" id="cB1-SZ-hNW"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Au7-0h-Icq" secondAttribute="trailing" id="4Dj-2n-2HY"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Au7-0h-Icq" secondAttribute="bottom" id="K5x-ia-pzv"/>
+                                                <constraint firstAttribute="topMargin" secondItem="Au7-0h-Icq" secondAttribute="top" id="W6j-aC-Bok"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="Au7-0h-Icq" secondAttribute="leading" id="Zxg-eg-3Pb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="infoLabel" destination="R5A-p4-sAf" id="EYF-6O-DrU"/>
+                                            <outlet property="label" destination="2O3-la-lBX" id="yZi-OW-SFK"/>
+                                            <outlet property="thumbnailView" destination="olJ-iR-Afl" id="8Op-7F-TPs"/>
+                                            <outlet property="thumbnailViewHeightConstraint" destination="cB1-SZ-hNW" id="SBs-o0-04p"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="j1y-V4-xli" id="jFu-7u-7hx"/>

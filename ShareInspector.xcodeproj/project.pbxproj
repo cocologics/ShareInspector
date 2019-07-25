@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5D0A79E122E9F02D007C84B1 /* DictionaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A79E022E9F02D007C84B1 /* DictionaryCell.swift */; };
+		5D0A79E322EA28A9007C84B1 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A79E222EA28A9007C84B1 /* ImageCell.swift */; };
 		5D74E33B22E8571100EFF3AA /* ShareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */; };
 		5D74E34222E8D60300EFF3AA /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34122E8D60300EFF3AA /* TextCell.swift */; };
 		5D74E34422E8D95300EFF3AA /* UITableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		5D0A79E022E9F02D007C84B1 /* DictionaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCell.swift; sourceTree = "<group>"; };
+		5D0A79E222EA28A9007C84B1 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewModel.swift; sourceTree = "<group>"; };
 		5D74E33C22E85ADD00EFF3AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5D74E34122E8D60300EFF3AA /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
@@ -118,12 +120,13 @@
 			isa = PBXGroup;
 			children = (
 				5D0A79E022E9F02D007C84B1 /* DictionaryCell.swift */,
-				5DDBB6F622E5CA6400BEA421 /* Info.plist */,
-				5DDBB6F322E5CA6400BEA421 /* MainInterface.storyboard */,
+				5D0A79E222EA28A9007C84B1 /* ImageCell.swift */,
 				5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */,
 				5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */,
 				5D74E34122E8D60300EFF3AA /* TextCell.swift */,
 				5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */,
+				5DDBB6F322E5CA6400BEA421 /* MainInterface.storyboard */,
+				5DDBB6F622E5CA6400BEA421 /* Info.plist */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				5D74E34222E8D60300EFF3AA /* TextCell.swift in Sources */,
 				5DDBB6F222E5CA6400BEA421 /* ShareViewController.swift in Sources */,
 				5D74E33B22E8571100EFF3AA /* ShareViewModel.swift in Sources */,
+				5D0A79E322EA28A9007C84B1 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
