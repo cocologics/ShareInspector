@@ -100,7 +100,7 @@ extension ShareViewModel {
     var cells: [CellDescriptor] {
       return [
         LabeledValue(
-          label: "Number of shared items (NSExtensionItem)",
+          label: "Number of shared items",
           value: Text.plain("\(sharedItemsCount)")).cellDescriptor,
       ]
     }
@@ -114,7 +114,7 @@ extension ShareViewModel {
     var userInfo: [String: Any]?
 
     var sectionTitle: String? {
-      return "Item \(itemNumber)"
+      return "Item \(itemNumber) (NSExtensionItem)"
     }
 
     var cells: [CellDescriptor] {
@@ -126,7 +126,7 @@ extension ShareViewModel {
           label: "attributedContentText",
           value: attributedContentText.map(Text.rich) ?? Text.plain("(nil)")).cellDescriptor,
         LabeledValue(
-          label: "Number of attachments (NSItemProvider)",
+          label: "Number of attachments",
           value: Text.plain("\(attachmentCount)")).cellDescriptor,
         LabeledValue(
           label: "userInfo",
@@ -143,7 +143,7 @@ extension ShareViewModel {
     var suggestedName: String?
 
     var sectionTitle: String? {
-      return "Item \(itemNumber) · Attachment \(attachmentNumber) of \(attachmentCount)"
+      return "Item \(itemNumber) · Attachment \(attachmentNumber) of \(attachmentCount) (NSItemProvider)"
     }
 
     var cells: [CellDescriptor] {
