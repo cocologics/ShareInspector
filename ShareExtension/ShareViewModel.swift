@@ -159,8 +159,9 @@ extension ShareViewModel {
     }
 
     var cells: [CellDescriptor] {
+      let bullet = registeredTypeIdentifiers.count == 1 ? "" : "• "
       let typeIdentifiersList = registeredTypeIdentifiers
-        .map { line in "• \(line)" }
+        .map { line in "\(bullet)\(line)" }
         .joined(separator: "\n")
       return [
         LabeledValue(
