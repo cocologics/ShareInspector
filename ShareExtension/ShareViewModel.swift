@@ -1,99 +1,163 @@
 import Foundation
 
-/// A section in a table or collection view.
-protocol SectionViewModel {
-  var rowCount: Int { get }
-  var sectionTitle: String? { get }
+struct LabeledValue<Value> {
+  var label: String
+  var value: Value
 }
 
-struct OverviewSectionViewModel: SectionViewModel {
-  var rowCount: Int { return 1 }
-  var sectionTitle: String? { return "Overview" }
-
-  var text: String
+enum Text {
+  case plain(String)
+  case rich(NSAttributedString)
 }
 
-struct SharedItemSectionViewModel: SectionViewModel {
-  var rowCount: Int { return 1 }
-  var sectionTitle: String? {
-    return "Shared Item \(number)"
+extension LabeledValue where Value == Text {
+  var cellDescriptor: CellDescriptor {
+    return CellDescriptor { (cell: TextCell) in
+      cell.viewModel = self
+    }
   }
-
-  var number: Int
-  var attributedTitle: NSAttributedString?
-  var attributedContentText: NSAttributedString?
-  var attachmentCount: Int
-  var userInfoText: String?
 }
 
-struct AttachmentsSectionViewModel: SectionViewModel {
-  var rowCount: Int { return attachments.count }
-  var sectionTitle: String? {
-    return "\(attachments.count) \(attachments.count == 1 ? "attachment" : "attachments")"
-  }
-
-  var attachments: [Attachment]
-
-  struct Attachment {
-    var registeredTypeIdentifiers: [String]
-    var suggestedName: String?
+extension LabeledValue where Value == [String: Any]? {
+  var cellDescriptor: CellDescriptor {
+    return CellDescriptor { (cell: DictionaryCell) in
+      cell.viewModel = self
+    }
   }
 }
 
 /// View model for ShareViewController
 struct ShareViewModel {
-  var sections: [SectionViewModel]
+  var sections: [Section]
 
-  /// View model for ShareViewController
   init(extensionContext: NSExtensionContext?) {
-    var sections: [SectionViewModel] = []
+    self.sections = ShareViewModel.makeSections(extensionContext: extensionContext)
+  }
+
+  private static func makeSections(extensionContext: NSExtensionContext?) -> [Section] {
+    var sections: [Section] = []
 
     // Overview section
     guard let extensionContext = extensionContext else {
-      sections.append(OverviewSectionViewModel(text: """
-        Error: Share extension received no NSExtensionContext.
-        """))
-      self.sections = sections
-      return
+      sections.append(Notice(label: "Error", message: "Share extension received no NSExtensionContext."))
+      return sections
     }
-    guard let sharedItems = extensionContext.inputItems as? [NSExtensionItem] else {
-      sections.append(OverviewSectionViewModel(text:
-        """
-        Share extension received \(extensionContext.inputItems.count) shared \(extensionContext.inputItems.count == 1 ? "item" : "items").
+    sections.append(Overview(sharedItemsCount: extensionContext.inputItems.count))
 
-        Error: Elements in extensionContext.inputItems are not of type NSExtensionItem.
-        """))
-      self.sections = sections
-      return
+    guard let sharedItems = extensionContext.inputItems as? [NSExtensionItem] else {
+      sections.append(Notice(label: "Error", message: "Error: Elements in extensionContext.inputItems are not of type NSExtensionItem."))
+      return sections
     }
-    sections.append(OverviewSectionViewModel(text: """
-      Share extension received \(sharedItems.count) shared \(sharedItems.count == 1 ? "item" : "items").
-      """))
 
     // Sections for the shared items
     // For each shared item, we create:
     // - An overview section with the data provided by NSExtensionItem.
-    // - An attachments section that lists all attachments (NSItemProvider) of the shared item.
-    for (counter, sharedItem) in zip(1..., sharedItems) {
+    // - One attachment section per attachment (NSItemProvider) of the shared item.
+    for (itemNumber, sharedItem) in zip(1..., sharedItems) {
       let attachments = sharedItem.attachments ?? []
 
       // Shared item overview
-      sections.append(SharedItemSectionViewModel(
-        number: counter,
+      sections.append(SharedItemOverview(
+        itemNumber: itemNumber,
         attributedTitle: sharedItem.attributedTitle,
         attributedContentText: sharedItem.attributedContentText,
         attachmentCount: attachments.count,
-        userInfoText: sharedItem.userInfo.map(String.init(reflecting:)) ?? "(nil)"))
+        userInfo: sharedItem.userInfo as? [String: Any]))
 
       // Attachments
-      sections.append(AttachmentsSectionViewModel(attachments: attachments.map { itemProvider in
-        AttachmentsSectionViewModel.Attachment(
-          registeredTypeIdentifiers: itemProvider.registeredTypeIdentifiers,
-          suggestedName: itemProvider.suggestedName)
-      }))
+      for (attachmentNumber, attachment) in zip(1..., attachments) {
+        sections.append(Attachment(
+          itemNumber: itemNumber,
+          attachmentNumber: attachmentNumber,
+          attachmentCount: attachments.count,
+          registeredTypeIdentifiers: attachment.registeredTypeIdentifiers,
+          suggestedName: attachment.suggestedName))
+      }
     }
 
-    self.sections = sections
+    return sections
   }
 }
 
+extension ShareViewModel {
+  /// A section for displaying a piece of text (e.g. an error message)
+  struct Notice: Section {
+    var label: String
+    var message: String
+
+    var sectionTitle: String? { return nil }
+    var cells: [CellDescriptor] {
+      return [
+        LabeledValue(label: label, value: Text.plain(message)).cellDescriptor
+      ]
+    }
+  }
+
+  struct Overview: Section {
+    var sharedItemsCount: Int
+
+    var sectionTitle: String? { return nil }
+    var cells: [CellDescriptor] {
+      return [
+        LabeledValue(
+          label: "Number of shared items (NSExtensionItem)",
+          value: Text.plain("\(sharedItemsCount)")).cellDescriptor,
+      ]
+    }
+  }
+
+  struct SharedItemOverview: Section {
+    var itemNumber: Int
+    var attributedTitle: NSAttributedString?
+    var attributedContentText: NSAttributedString?
+    var attachmentCount: Int
+    var userInfo: [String: Any]?
+
+    var sectionTitle: String? {
+      return "Item \(itemNumber)"
+    }
+
+    var cells: [CellDescriptor] {
+      return [
+        LabeledValue(
+          label: "attributedTitle",
+          value: attributedTitle.map(Text.rich) ?? Text.plain("(nil)")).cellDescriptor,
+        LabeledValue(
+          label: "attributedContentText",
+          value: attributedContentText.map(Text.rich) ?? Text.plain("(nil)")).cellDescriptor,
+        LabeledValue(
+          label: "Number of attachments (NSItemProvider)",
+          value: Text.plain("\(attachmentCount)")).cellDescriptor,
+        LabeledValue(
+          label: "userInfo",
+          value: userInfo).cellDescriptor,
+      ]
+    }
+  }
+
+  struct Attachment: Section {
+    var itemNumber: Int
+    var attachmentNumber: Int
+    var attachmentCount: Int
+    var registeredTypeIdentifiers: [String]
+    var suggestedName: String?
+
+    var sectionTitle: String? {
+      return "Item \(itemNumber) · Attachment \(attachmentNumber) of \(attachmentCount)"
+    }
+
+    var cells: [CellDescriptor] {
+      let typeIdentifiersList = registeredTypeIdentifiers
+        .map { line in "• \(line)" }
+        .joined(separator: "\n")
+      return [
+        LabeledValue(
+          label: "registeredTypeIdentifiers",
+          value: Text.plain(typeIdentifiersList)).cellDescriptor,
+        LabeledValue(
+          label: "suggestedName",
+          value: Text.plain(suggestedName ?? "(nil)")).cellDescriptor,
+      ]
+    }
+  }
+}

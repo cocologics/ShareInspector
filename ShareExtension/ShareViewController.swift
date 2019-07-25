@@ -9,6 +9,7 @@ final class ShareViewController: UIViewController {
   }
 
   @IBOutlet var tableView: UITableView?
+  private var reuseIdentifiers: Set<String> = []
 
   override func loadView() {
     super.loadView()
@@ -26,7 +27,7 @@ extension ShareViewController: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.sections[section].rowCount
+    return viewModel.sections[section].cells.count
   }
 
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -35,24 +36,16 @@ extension ShareViewController: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let section = viewModel.sections[indexPath.section]
-    switch section {
-    case let s as OverviewSectionViewModel:
-      let cell = tableView.dequeueReusableCell(withIdentifier: OverviewCell.reuseIdentifier, for: indexPath) as! OverviewCell
-      assert(indexPath.row == 0, "Not expecting more than one row in this section, indexPath: \(indexPath)")
-      cell.viewModel = s
-      return cell
-    case let s as SharedItemSectionViewModel:
-      let cell = tableView.dequeueReusableCell(withIdentifier: SharedItemCell.reuseIdentifier, for: indexPath) as! SharedItemCell
-      assert(indexPath.row == 0, "Not expecting more than one row in this section, indexPath: \(indexPath)")
-      cell.viewModel = s
-      return cell
-    case let s as AttachmentsSectionViewModel:
-      let cell = tableView.dequeueReusableCell(withIdentifier: AttachmentCell.reuseIdentifier, for: indexPath) as! AttachmentCell
-      cell.viewModel = s.attachments[indexPath.row]
-      return cell
-    default:
-      return tableView.dequeueReusableCell(withIdentifier: "UnknownCell", for: indexPath)
+    let descriptor = section.cells[indexPath.row]
+
+    // Register cell types lazily
+    if descriptor.shouldRegisterCellClassWithTableView && !reuseIdentifiers.contains(descriptor.reuseIdentifier) {
+      tableView.register(descriptor.cellClass, forCellReuseIdentifier: descriptor.reuseIdentifier)
+      reuseIdentifiers.insert(descriptor.reuseIdentifier)
     }
 
+    let cell = tableView.dequeueReusableCell(withIdentifier: descriptor.reuseIdentifier, for: indexPath)
+    descriptor.configure(cell)
+    return cell
   }
 }
