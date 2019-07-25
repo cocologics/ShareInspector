@@ -16,6 +16,13 @@ final class ShareViewController: UIViewController {
     viewModel = ShareViewModel(extensionContext: extensionContext)
   }
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // Set our tint color on the parent navigation controller.
+    // We do this from here because this is our entry point for the Share Extension.
+    navigationController?.view.tintColor = .systemGreen
+  }
+
   @IBAction func done(_ sender: UIBarButtonItem) {
     extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
   }
