@@ -6,6 +6,7 @@ final class TextCell: UITableViewCell, ReusableCell {
   static let reuseIdentifier = "TextCell"
   static var shouldRegisterCellClassWithTableView = false
 
+  @IBOutlet var contentStack: UIStackView!
   @IBOutlet var label: UILabel!
   @IBOutlet var valueLabel: UILabel!
 
@@ -24,12 +25,34 @@ final class TextCell: UITableViewCell, ReusableCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
+    label.preferredMaxLayoutWidth = CGFloat.greatestFiniteMagnitude
+    valueLabel.preferredMaxLayoutWidth = CGFloat.greatestFiniteMagnitude
     updateUI()
   }
 
   override func prepareForReuse() {
     super.prepareForReuse()
     viewModel = nil
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    let layoutAxis = preferredLayoutAxis
+    switch layoutAxis {
+    case .horizontal where contentStack.axis != .horizontal:
+      contentStack.axis = .horizontal
+      contentStack.distribution = .fill
+      contentStack.alignment = .firstBaseline
+      valueLabel.textAlignment = .right
+    case .vertical where contentStack.axis != .vertical:
+      contentStack.axis = .vertical
+      contentStack.distribution = .fill
+      contentStack.alignment = .fill
+      valueLabel.textAlignment = .left
+    default:
+      break
+    }
   }
 
   private func updateUI() {
@@ -43,5 +66,18 @@ final class TextCell: UITableViewCell, ReusableCell {
       label.text = nil
       valueLabel.text = nil
     }
+  }
+
+  private var preferredLayoutAxis: NSLayoutConstraint.Axis {
+    let labelWidth = label.intrinsicContentSize.width
+    let valueWidth = valueLabel.intrinsicContentSize.width
+    let hasValidIntrinsicWidth = labelWidth != UIView.noIntrinsicMetric && valueWidth != UIView.noIntrinsicMetric
+    guard hasValidIntrinsicWidth else {
+      return .vertical
+    }
+
+    let requiredWidthIfHorizontal = labelWidth + contentStack.spacing + valueWidth
+    let hasEnoughHorizontalSpace = contentStack.bounds.width >= requiredWidthIfHorizontal
+    return hasEnoughHorizontalSpace ? .horizontal : .vertical
   }
 }
