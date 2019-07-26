@@ -9,20 +9,20 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   @IBOutlet var label: UILabel!
   /// The stack view in which the elements of the dictionary are displayed
   @IBOutlet var elementsStack: UIStackView!
-  @IBOutlet var collapseButton: UIButton!
+  @IBOutlet var expandButton: UIButton!
 
   var viewModel: LabeledValue<[String: Any]?>? {
     didSet { updateUI() }
   }
 
-  var cellDidResize: (() -> ())?
-
-  var isCollapsed = true {
+  var isExpanded: Bool = false {
     didSet {
       updateUI()
       cellDidResize?()
     }
   }
+
+  var cellDidResize: (() -> ())?
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,17 +41,14 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    viewModel = nil
     cellDidResize = nil
   }
 
-  @IBAction func toggleCollapse() {
-    self.isCollapsed.toggle()
+  @IBAction func toggleExpandCollapse() {
+    isExpanded.toggle()
   }
 
   private func updateUI() {
-    collapseButton.setTitle(isCollapsed ? "Expand" : "Collapse", for: .normal)
-
     // Remove all existing views in elementsStack
     for subview in elementsStack.arrangedSubviews {
       subview.removeFromSuperview()
@@ -60,27 +57,29 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
     // Rebuild elementsStack from current state
     if let viewModel = viewModel {
       label.text = viewModel.label
-      switch (viewModel.value, isCollapsed) {
+      expandButton.setTitle(isExpanded ? "Collapse" : "Expand", for: .normal)
+
+      switch (viewModel.value, isExpanded) {
       case (let dict?, true):
-        collapseButton.isHidden = false
-        let infoLabel = UILabel()
-        infoLabel.text = "\(dict.count) key/value \(dict.count == 1 ? "pair" : "pairs")"
-        elementsStack.addArrangedSubview(infoLabel)
-      case (let dict?, false):
-        collapseButton.isHidden = false
+        expandButton.isHidden = false
         let subStacks = dict
           .sorted(by: { $0.key < $1.key })
           .map(DictionaryCell.makeSubStack(element:))
         subStacks.forEach(elementsStack.addArrangedSubview)
-      case (_, _):
-        collapseButton.isHidden = true
+      case (let dict?, false):
+        expandButton.isHidden = false
+        let infoLabel = UILabel()
+        infoLabel.text = "\(dict.count) key/value \(dict.count == 1 ? "pair" : "pairs")"
+        elementsStack.addArrangedSubview(infoLabel)
+      case (nil, _):
+        expandButton.isHidden = true
         let nilLabel = UILabel()
         nilLabel.text = "(nil)"
         elementsStack.addArrangedSubview(nilLabel)
       }
     } else {
       label.text = nil
-      collapseButton.isHidden = true
+      expandButton.isHidden = true
     }
   }
 

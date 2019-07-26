@@ -13,6 +13,7 @@ final class ShareViewController: UIViewController {
 
   override func loadView() {
     super.loadView()
+    tableView?.rowHeight = UITableView.automaticDimension
     viewModel = ShareViewModel(extensionContext: extensionContext)
   }
 

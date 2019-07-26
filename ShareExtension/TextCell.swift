@@ -30,11 +30,6 @@ final class TextCell: UITableViewCell, ReusableCell {
     updateUI()
   }
 
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    viewModel = nil
-  }
-
   override func layoutSubviews() {
     super.layoutSubviews()
 
