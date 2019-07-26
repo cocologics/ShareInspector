@@ -76,6 +76,11 @@ final class TextCell: UITableViewCell, ReusableCell {
       return .vertical
     }
 
+    let valueHasLineBreaks = (valueLabel.text ?? "").lineCount > 1
+    guard !valueHasLineBreaks else {
+      return .vertical
+    }
+
     let requiredWidthIfHorizontal = labelWidth + contentStack.spacing + valueWidth
     let hasEnoughHorizontalSpace = contentStack.bounds.width >= requiredWidthIfHorizontal
     return hasEnoughHorizontalSpace ? .horizontal : .vertical
