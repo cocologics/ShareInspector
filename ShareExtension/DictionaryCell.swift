@@ -50,26 +50,37 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   }
 
   private func updateUI() {
-    elementsStack.isHidden = isCollapsed
     collapseButton.setTitle(isCollapsed ? "Expand" : "Collapse", for: .normal)
 
+    // Remove all existing views in elementsStack
     for subview in elementsStack.arrangedSubviews {
       subview.removeFromSuperview()
     }
+
+    // Rebuild elementsStack from current state
     if let viewModel = viewModel {
       label.text = viewModel.label
-      if let dict = viewModel.value {
+      switch (viewModel.value, isCollapsed) {
+      case (let dict?, true):
+        collapseButton.isHidden = false
+        let infoLabel = UILabel()
+        infoLabel.text = "\(dict.count) key/value \(dict.count == 1 ? "pair" : "pairs")"
+        elementsStack.addArrangedSubview(infoLabel)
+      case (let dict?, false):
+        collapseButton.isHidden = false
         let subStacks = dict
           .sorted(by: { $0.key < $1.key })
           .map(DictionaryCell.makeSubStack(element:))
         subStacks.forEach(elementsStack.addArrangedSubview)
-      } else {
+      case (_, _):
+        collapseButton.isHidden = true
         let nilLabel = UILabel()
         nilLabel.text = "(nil)"
         elementsStack.addArrangedSubview(nilLabel)
       }
     } else {
       label.text = nil
+      collapseButton.isHidden = true
     }
   }
 
