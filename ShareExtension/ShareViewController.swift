@@ -13,7 +13,7 @@ final class ShareViewController: UIViewController {
 
   override func loadView() {
     super.loadView()
-    tableView?.rowHeight = UITableView.automaticDimension
+    tableView!.rowHeight = UITableView.automaticDimension
     viewModel = ShareViewModel(extensionContext: extensionContext)
   }
 
@@ -62,5 +62,15 @@ extension ShareViewController: UITableViewDataSource {
     }
     descriptor.configure(cell)
     return cell
+  }
+}
+
+extension ShareViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    // Hack: Reload the cell in order to resize it (to fix autolayout issues)
+    tableView.beginUpdates()
+    tableView.reloadRows(at: [indexPath], with: .automatic)
+    tableView.endUpdates()
+    tableView.deselectRow(at: indexPath, animated: true)
   }
 }
