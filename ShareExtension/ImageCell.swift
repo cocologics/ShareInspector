@@ -4,7 +4,10 @@ import UIKit
 /// The image is loaded dynamically by the cell.
 final class ImageCell: UITableViewCell, ReusableCell, ResizingCell {
   static let reuseIdentifier = "ImageCell"
-  static var shouldRegisterCellClassWithTableView = false
+  static let shouldRegisterCellClassWithTableView = false
+
+  static let smallThumbnailViewHeight: CGFloat = 50
+  static let largeThumbnailViewHeight: CGFloat = 120
 
   @IBOutlet var label: UILabel!
   /// Displays meta information such as image size or error messages if loading fails.
@@ -15,7 +18,7 @@ final class ImageCell: UITableViewCell, ReusableCell, ResizingCell {
   var viewModel: LabeledValue<LoadImageHandler>? {
     didSet {
       updateUI()
-      viewModel?.value(CGSize(width: 300, height: 300)) { result in
+      viewModel?.value(CGSize(width: ImageCell.largeThumbnailViewHeight, height: 2 * ImageCell.largeThumbnailViewHeight)) { result in
         // TODO: Handle cell reuse. Do nothing if the cell has been reused in the meantime.
         DispatchQueue.main.async {
           self.loadedImage = result
@@ -61,19 +64,19 @@ final class ImageCell: UITableViewCell, ReusableCell, ResizingCell {
       switch loadedImage {
       case nil:
         thumbnailView.image = nil
-        thumbnailViewHeightConstraint.constant = 50
+        thumbnailViewHeightConstraint.constant = ImageCell.smallThumbnailViewHeight
         infoLabel.text = nil
       case .success(let image)?:
         thumbnailView.image = image
-        thumbnailViewHeightConstraint.constant = 120
+        thumbnailViewHeightConstraint.constant = ImageCell.largeThumbnailViewHeight
         infoLabel.text = "\(image.size.width) × \(image.size.height) pt"
       case .failure(let error):
         thumbnailView.image = nil
         if let error = error as? ShareInspectorError, error.code == .noPreviewImageProvided {
-          thumbnailViewHeightConstraint.constant = 50
+          thumbnailViewHeightConstraint.constant = ImageCell.smallThumbnailViewHeight
           infoLabel.text = "(none)"
         } else {
-          thumbnailViewHeightConstraint.constant = 120
+          thumbnailViewHeightConstraint.constant = ImageCell.largeThumbnailViewHeight
           infoLabel.text = "Loading error: \(error.localizedDescription)"
         }
       }
@@ -81,7 +84,7 @@ final class ImageCell: UITableViewCell, ReusableCell, ResizingCell {
       label.text = nil
       infoLabel.text = nil
       thumbnailView.image = nil
-      thumbnailViewHeightConstraint.constant = 50
+      thumbnailViewHeightConstraint.constant = ImageCell.smallThumbnailViewHeight
     }
   }
 }

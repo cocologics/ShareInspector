@@ -4,7 +4,7 @@ import UIKit
 /// The value can be plain (`String`) or rich text (`NSAttributedString)`.
 final class TextCell: UITableViewCell, ReusableCell {
   static let reuseIdentifier = "TextCell"
-  static var shouldRegisterCellClassWithTableView = false
+  static let shouldRegisterCellClassWithTableView = false
 
   @IBOutlet var contentStack: UIStackView!
   @IBOutlet var label: UILabel!

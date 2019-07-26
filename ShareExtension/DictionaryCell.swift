@@ -4,7 +4,7 @@ import UIKit
 /// The dictionary keys must be strings.
 final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   static let reuseIdentifier = "DictionaryCell"
-  static var shouldRegisterCellClassWithTableView = false
+  static let shouldRegisterCellClassWithTableView = false
 
   @IBOutlet var label: UILabel!
   /// The stack view in which the elements of the dictionary are displayed
