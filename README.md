@@ -2,6 +2,8 @@
 
 An iOS app that provides a [share extension](https://developer.apple.com/design/human-interface-guidelines/ios/extensions/sharing-and-actions/) for inspecting the data the host app provides via the share sheet.
 
+Made by Cocologics, makers of [ProCamera](https://www.procamera-app.com).
+
 ## Usage
 
 1. Download or clone the repository.
