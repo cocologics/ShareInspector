@@ -17,8 +17,8 @@ No dependencies.
 
 ### Receiving a Live Photo shared from Photos
 
-<img src="screenshots/Share-Inspector-Screenshot-PhotosApp-LivePhoto.png" width="563" height="1218" alt="Share Inspector receiving a Live Photo shared from Photos">
+<img src="screenshots/Device-PhotosApp-LivePhoto.png" width="434" height="872" alt="Share Inspector receiving a Live Photo shared from Photos">
 
 ### Receiving a web page shared from Safari
 
-<img src="screenshots/Share-Inspector-Screenshot-Safari-WebPage.png" width="563" height="1218" alt="Share Inspector receiving a web page shared from Safari">
+<img src="screenshots/Device-Safari-WebPage.png" width="434" height="872" alt="Share Inspector receiving a web page shared from Safari">
