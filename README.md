@@ -13,10 +13,12 @@ An iOS app that provides a [share extension](https://developer.apple.com/design/
 iOS 12.0 or later.<br>
 No dependencies.
 
-## Screenshot
+## Screenshots
 
-Share Inspector receiving a Live Photo shared from Photos:<br>
-![Share Inspector receiving a Live Photo shared from Photos](screenshots/Share-Inspector-Screenshot-PhotosApp-LivePhoto.png)
+### Receiving a Live Photo shared from Photos
 
-Share Inspector receiving a web page shared from Safari:<br>
-![Share Inspector receiving a web page shared from Safari](screenshots/Share-Inspector-Screenshot-Safari-WebPage.png)
+<img src="screenshots/Share-Inspector-Screenshot-PhotosApp-LivePhoto.png" width="563" height="1218" alt="Share Inspector receiving a Live Photo shared from Photos">
+
+### Receiving a web page shared from Safari
+
+<img src="screenshots/Share-Inspector-Screenshot-Safari-WebPage.png" width="563" height="1218" alt="Share Inspector receiving a web page shared from Safari">
