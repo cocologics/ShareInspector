@@ -36,6 +36,7 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     label.preferredMaxLayoutWidth = CGFloat.greatestFiniteMagnitude
+    expandButton.titleLabel?.adjustsFontForContentSizeCategory = true
     updateUI()
   }
 
@@ -69,11 +70,13 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
       case (let dict?, false):
         expandButton.isHidden = false
         let infoLabel = UILabel()
+        infoLabel.font = .preferredFont(forTextStyle: .body)
         infoLabel.text = "\(dict.count) key/value \(dict.count == 1 ? "pair" : "pairs")"
         elementsStack.addArrangedSubview(infoLabel)
       case (nil, _):
         expandButton.isHidden = true
         let nilLabel = UILabel()
+        nilLabel.font = .preferredFont(forTextStyle: .body)
         nilLabel.text = "(nil)"
         elementsStack.addArrangedSubview(nilLabel)
       }
@@ -86,10 +89,12 @@ final class DictionaryCell: UITableViewCell, ReusableCell, ResizingCell {
   private class func makeSubStack(element: (key: String, value: Any)) -> UIStackView {
     let (key, value) = element
     let keyLabel = UILabel()
+    keyLabel.font = .preferredFont(forTextStyle: .body)
     keyLabel.numberOfLines = 0
     keyLabel.text = key
 
     let valueLabel = UILabel()
+    valueLabel.font = .preferredFont(forTextStyle: .body)
     valueLabel.numberOfLines = 0
     valueLabel.text = String(describing: value)
 
