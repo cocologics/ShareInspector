@@ -53,6 +53,7 @@
 		5D0A79E022E9F02D007C84B1 /* DictionaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCell.swift; sourceTree = "<group>"; };
 		5D0A79E222EA28A9007C84B1 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		5D0A79E422EAE522007C84B1 /* String+Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utility.swift"; sourceTree = "<group>"; };
+		5D0CD6BB23B3C6CC0020A15C /* ShareInspectorModel */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShareInspectorModel; sourceTree = "<group>"; };
 		5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewModel.swift; sourceTree = "<group>"; };
 		5D74E33C22E85ADD00EFF3AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5D74E34122E8D60300EFF3AA /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 				5DDBB6C522E5C89F00BEA421 /* ShareInspector */,
 				5DDBB6F022E5CA6400BEA421 /* ShareExtension */,
 				5D77103C23B3B629003701F4 /* ShareInspectorUI */,
+				5D0CD6BB23B3C6CC0020A15C /* ShareInspectorModel */,
 				5DDBB6C422E5C89F00BEA421 /* Products */,
 			);
 			sourceTree = "<group>";
