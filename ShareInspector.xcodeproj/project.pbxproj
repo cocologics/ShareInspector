@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,8 +13,8 @@
 		5D74E33B22E8571100EFF3AA /* ShareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */; };
 		5D74E34222E8D60300EFF3AA /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34122E8D60300EFF3AA /* TextCell.swift */; };
 		5D74E34422E8D95300EFF3AA /* UITableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */; };
-		5D77103523B3B09D003701F4 /* SharedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D77103423B3B09D003701F4 /* SharedItemsView.swift */; };
 		5D77103723B3B21B003701F4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D77103623B3B21B003701F4 /* RootViewController.swift */; };
+		5D77103F23B3B6FB003701F4 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5D77103E23B3B6FB003701F4 /* ShareInspectorUI */; };
 		5DDBB6C722E5C89F00BEA421 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */; };
 		5DDBB6C922E5C89F00BEA421 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C822E5C89F00BEA421 /* ViewController.swift */; };
 		5DDBB6CC22E5C89F00BEA421 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CA22E5C89F00BEA421 /* Main.storyboard */; };
@@ -57,8 +57,8 @@
 		5D74E33C22E85ADD00EFF3AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5D74E34122E8D60300EFF3AA /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewModel.swift; sourceTree = "<group>"; };
-		5D77103423B3B09D003701F4 /* SharedItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedItemsView.swift; sourceTree = "<group>"; };
 		5D77103623B3B21B003701F4 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		5D77103C23B3B629003701F4 /* ShareInspectorUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShareInspectorUI; sourceTree = "<group>"; };
 		5DDBB6C322E5C89F00BEA421 /* ShareInspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareInspector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DDBB6C822E5C89F00BEA421 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D77103F23B3B6FB003701F4 /* ShareInspectorUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +97,7 @@
 				5D74E33C22E85ADD00EFF3AA /* README.md */,
 				5DDBB6C522E5C89F00BEA421 /* ShareInspector */,
 				5DDBB6F022E5CA6400BEA421 /* ShareExtension */,
+				5D77103C23B3B629003701F4 /* ShareInspectorUI */,
 				5DDBB6C422E5C89F00BEA421 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -127,7 +129,6 @@
 			children = (
 				5D0A79E022E9F02D007C84B1 /* DictionaryCell.swift */,
 				5D0A79E222EA28A9007C84B1 /* ImageCell.swift */,
-				5D77103423B3B09D003701F4 /* SharedItemsView.swift */,
 				5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */,
 				5D74E33A22E8571100EFF3AA /* ShareViewModel.swift */,
 				5D0A79E422EAE522007C84B1 /* String+Utility.swift */,
@@ -158,6 +159,8 @@
 				5DDBB6F822E5CA6400BEA421 /* PBXTargetDependency */,
 			);
 			name = ShareInspector;
+			packageProductDependencies = (
+			);
 			productName = ShareInspector;
 			productReference = 5DDBB6C322E5C89F00BEA421 /* ShareInspector.app */;
 			productType = "com.apple.product-type.application";
@@ -175,6 +178,9 @@
 			dependencies = (
 			);
 			name = ShareExtension;
+			packageProductDependencies = (
+				5D77103E23B3B6FB003701F4 /* ShareInspectorUI */,
+			);
 			productName = ShareExtension;
 			productReference = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -251,7 +257,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D77103523B3B09D003701F4 /* SharedItemsView.swift in Sources */,
 				5D74E34422E8D95300EFF3AA /* UITableViewModel.swift in Sources */,
 				5D77103723B3B21B003701F4 /* RootViewController.swift in Sources */,
 				5D0A79E122E9F02D007C84B1 /* DictionaryCell.swift in Sources */,
@@ -524,6 +529,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5D77103E23B3B6FB003701F4 /* ShareInspectorUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShareInspectorUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5DDBB6BB22E5C89F00BEA421 /* Project object */;
 }
