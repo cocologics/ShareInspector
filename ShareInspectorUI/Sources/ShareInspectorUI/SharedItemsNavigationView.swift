@@ -31,7 +31,7 @@ public struct SharedItemsNavigationView: View {
     }
   }
 
-  var error: SharedItems.Error? {
+  var error: ShareInspectorError? {
     switch state.state {
     case .success: return nil
     case .failure(let error): return error
