@@ -1,6 +1,8 @@
 import ShareInspectorModel
 import SwiftUI
 
+let softHyphen = "\u{ad}"
+
 struct SharedItemsView: View {
   var items: [SharedItem]
 
@@ -17,15 +19,15 @@ struct SharedItemsView: View {
       ForEach(items.numbered(startingAt: 1)) { i in
         Group {
           Section(header: Text("Item \(i.number) (NSExtensionItem)")) {
-            SharedItemProperty(label: "attributedTitle", value: i.item.attributedTitle?.string)
-            SharedItemProperty(label: "attributedContentText", value: i.item.attributedContentText?.string)
+            SharedItemProperty(label: "attributed\(softHyphen)Title", value: i.item.attributedTitle?.string)
+            SharedItemProperty(label: "attributed\(softHyphen)Content\(softHyphen)Text", value: i.item.attributedContentText?.string)
             SharedItemProperty(label: "Number of attachments", value: "\(i.item.attachments.count)")
             if i.item.userInfo != nil {
               NavigationLink(
                 destination: DictionaryListView(dictionary: i.item.userInfo!)
-                  .navigationBarTitle("NSExtensionItem.userInfo")
+                  .navigationBarTitle("NSExtensionItem\(softHyphen).userInfo")
               ) {
-                SharedItemProperty(label: "userInfo", value: "\(i.item.userInfo!.count)")
+                SharedItemProperty(label: "userInfo", value: "\(i.item.userInfo!.count) key/value pairs")
               }
             } else {
               SharedItemProperty(label: "userInfo", value: nil)
@@ -98,8 +100,8 @@ struct AttachmentView: View {
           }
         }
       }
-      SharedItemProperty(label: "registeredTypeIdentifiers", value: typeIdentifiersList)
-      SharedItemProperty(label: "suggestedName", value: attachment.suggestedName)
+      SharedItemProperty(label: "registered\(softHyphen)Type\(softHyphen)Identifiers", value: typeIdentifiersList)
+      SharedItemProperty(label: "suggested\(softHyphen)Name", value: attachment.suggestedName)
     }
   }
 
