@@ -1,14 +1,18 @@
+import ShareInspectorModel
 import ShareInspectorUI
 import SwiftUI
 import UIKit
 
 @objc(RootViewController)
 final class RootViewController: UIViewController {
-  var hostingVC: UIHostingController<SharedItemsView>!
+  var hostingVC: UIHostingController<SharedItemsNavigationView>!
 
   override func loadView() {
     super.loadView()
-    hostingVC = UIHostingController(rootView: SharedItemsView())
+
+    let state = SharedItems(extensionContext: extensionContext)
+    let rootView = SharedItemsNavigationView(state: state)
+    hostingVC = UIHostingController(rootView: rootView)
     addChild(hostingVC)
     view.addSubview(hostingVC.view)
     hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
