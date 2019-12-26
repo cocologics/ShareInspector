@@ -18,15 +18,11 @@ public struct Attachment: Identifiable {
 }
 
 extension Attachment {
-  public init(registeredTypeIdentifiers: [String], suggestedName: String?, previewImage: UIImage?) {
+  public init(registeredTypeIdentifiers: [String], suggestedName: String?, previewImage: Result<UIImage, Error>?) {
     self.registeredTypeIdentifiers = registeredTypeIdentifiers
     self.suggestedName = suggestedName
     self.loadPreviewImage = { _, callback in
-      if let previewImage = previewImage {
-        callback(.success(previewImage))
-      } else {
-        callback(nil)
-      }
+      callback(previewImage)
     }
   }
 
