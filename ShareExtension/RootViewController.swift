@@ -10,6 +10,7 @@ final class RootViewController: UIViewController {
 
   override func loadView() {
     super.loadView()
+    view.tintColor = UIColor(named: "pcTintColor")!
 
     let state = SharedItems(extensionContext: extensionContext)
     let rootView = SharedItemsNavigationView(
