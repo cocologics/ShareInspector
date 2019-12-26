@@ -41,8 +41,8 @@ struct AttachmentView: View {
           }
         }
       }
-      SharedItemProperty(label: "registered\(softHyphen)Type\(softHyphen)Identifiers", value: typeIdentifiersList)
-      SharedItemProperty(label: "suggested\(softHyphen)Name", value: attachment.suggestedName)
+      SharedItemProperty(label: "registered\(softHyphen)Type\(softHyphen)Identifiers", plainText: typeIdentifiersList)
+      SharedItemProperty(label: "suggested\(softHyphen)Name", plainText: attachment.suggestedName)
     }
   }
 
