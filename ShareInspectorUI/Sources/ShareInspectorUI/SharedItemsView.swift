@@ -53,9 +53,12 @@ struct SharedItemProperty: View {
   var body: some View {
     HStack(alignment: .firstTextBaseline) {
       Text(label)
+        .bold()
+        .frame(minWidth: 100, alignment: .leading)
       Spacer()
       Text(value ?? "(nil)")
         .multilineTextAlignment(.leading)
+        .layoutPriority(1)
     }
   }
 }
