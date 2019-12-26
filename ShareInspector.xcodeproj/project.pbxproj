@@ -14,7 +14,6 @@
 		5D74E34222E8D60300EFF3AA /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34122E8D60300EFF3AA /* TextCell.swift */; };
 		5D74E34422E8D95300EFF3AA /* UITableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */; };
 		5D77103723B3B21B003701F4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D77103623B3B21B003701F4 /* RootViewController.swift */; };
-		5D77103F23B3B6FB003701F4 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5D77103E23B3B6FB003701F4 /* ShareInspectorUI */; };
 		5DDBB6C722E5C89F00BEA421 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */; };
 		5DDBB6C922E5C89F00BEA421 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C822E5C89F00BEA421 /* ViewController.swift */; };
 		5DDBB6CC22E5C89F00BEA421 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CA22E5C89F00BEA421 /* Main.storyboard */; };
@@ -23,6 +22,8 @@
 		5DDBB6F222E5CA6400BEA421 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */; };
 		5DDBB6F522E5CA6400BEA421 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6F322E5CA6400BEA421 /* MainInterface.storyboard */; };
 		5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5DFAD49823B4F42600AEB766 /* ShareInspectorModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49723B4F42600AEB766 /* ShareInspectorModel */; };
+		5DFAD49A23B4F42600AEB766 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49923B4F42600AEB766 /* ShareInspectorUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D77103F23B3B6FB003701F4 /* ShareInspectorUI in Frameworks */,
+				5DFAD49A23B4F42600AEB766 /* ShareInspectorUI in Frameworks */,
+				5DFAD49823B4F42600AEB766 /* ShareInspectorModel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +103,7 @@
 				5D77103C23B3B629003701F4 /* ShareInspectorUI */,
 				5D0CD6BB23B3C6CC0020A15C /* ShareInspectorModel */,
 				5DDBB6C422E5C89F00BEA421 /* Products */,
+				5DFAD49623B4F42600AEB766 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +146,13 @@
 			path = ShareExtension;
 			sourceTree = "<group>";
 		};
+		5DFAD49623B4F42600AEB766 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -181,7 +191,8 @@
 			);
 			name = ShareExtension;
 			packageProductDependencies = (
-				5D77103E23B3B6FB003701F4 /* ShareInspectorUI */,
+				5DFAD49723B4F42600AEB766 /* ShareInspectorModel */,
+				5DFAD49923B4F42600AEB766 /* ShareInspectorUI */,
 			);
 			productName = ShareExtension;
 			productReference = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */;
@@ -533,7 +544,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5D77103E23B3B6FB003701F4 /* ShareInspectorUI */ = {
+		5DFAD49723B4F42600AEB766 /* ShareInspectorModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShareInspectorModel;
+		};
+		5DFAD49923B4F42600AEB766 /* ShareInspectorUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ShareInspectorUI;
 		};
