@@ -15,8 +15,6 @@
 		5D74E34422E8D95300EFF3AA /* UITableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74E34322E8D95300EFF3AA /* UITableViewModel.swift */; };
 		5D77103723B3B21B003701F4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D77103623B3B21B003701F4 /* RootViewController.swift */; };
 		5DDBB6C722E5C89F00BEA421 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */; };
-		5DDBB6C922E5C89F00BEA421 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C822E5C89F00BEA421 /* ViewController.swift */; };
-		5DDBB6CC22E5C89F00BEA421 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CA22E5C89F00BEA421 /* Main.storyboard */; };
 		5DDBB6CE22E5C8A000BEA421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CD22E5C8A000BEA421 /* Assets.xcassets */; };
 		5DDBB6D122E5C8A000BEA421 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CF22E5C8A000BEA421 /* LaunchScreen.storyboard */; };
 		5DDBB6F222E5CA6400BEA421 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */; };
@@ -24,6 +22,10 @@
 		5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5DFAD49823B4F42600AEB766 /* ShareInspectorModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49723B4F42600AEB766 /* ShareInspectorModel */; };
 		5DFAD49A23B4F42600AEB766 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49923B4F42600AEB766 /* ShareInspectorUI */; };
+		5DFAD49E23B4F96C00AEB766 /* ShareInspectorModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49D23B4F96C00AEB766 /* ShareInspectorModel */; };
+		5DFAD4A023B4F96C00AEB766 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49F23B4F96C00AEB766 /* ShareInspectorUI */; };
+		5DFAD4A223B4F9AC00AEB766 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFAD4A123B4F9AC00AEB766 /* SceneDelegate.swift */; };
+		5DFAD4A423B4F9BE00AEB766 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFAD4A323B4F9BE00AEB766 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +65,6 @@
 		5D77103C23B3B629003701F4 /* ShareInspectorUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShareInspectorUI; sourceTree = "<group>"; };
 		5DDBB6C322E5C89F00BEA421 /* ShareInspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareInspector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5DDBB6C822E5C89F00BEA421 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5DDBB6CB22E5C89F00BEA421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5DDBB6CD22E5C8A000BEA421 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DDBB6D022E5C8A000BEA421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5DDBB6D222E5C8A000BEA421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,6 +72,8 @@
 		5DDBB6F122E5CA6400BEA421 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		5DDBB6F422E5CA6400BEA421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		5DDBB6F622E5CA6400BEA421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DFAD4A123B4F9AC00AEB766 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5DFAD4A323B4F9BE00AEB766 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DFAD4A023B4F96C00AEB766 /* ShareInspectorUI in Frameworks */,
+				5DFAD49E23B4F96C00AEB766 /* ShareInspectorModel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,10 +125,10 @@
 			children = (
 				5DDBB6CD22E5C8A000BEA421 /* Assets.xcassets */,
 				5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */,
+				5DFAD4A323B4F9BE00AEB766 /* RootView.swift */,
+				5DFAD4A123B4F9AC00AEB766 /* SceneDelegate.swift */,
 				5DDBB6D222E5C8A000BEA421 /* Info.plist */,
 				5DDBB6CF22E5C8A000BEA421 /* LaunchScreen.storyboard */,
-				5DDBB6CA22E5C89F00BEA421 /* Main.storyboard */,
-				5DDBB6C822E5C89F00BEA421 /* ViewController.swift */,
 			);
 			path = ShareInspector;
 			sourceTree = "<group>";
@@ -172,6 +176,8 @@
 			);
 			name = ShareInspector;
 			packageProductDependencies = (
+				5DFAD49D23B4F96C00AEB766 /* ShareInspectorModel */,
+				5DFAD49F23B4F96C00AEB766 /* ShareInspectorUI */,
 			);
 			productName = ShareInspector;
 			productReference = 5DDBB6C322E5C89F00BEA421 /* ShareInspector.app */;
@@ -242,7 +248,6 @@
 			files = (
 				5DDBB6D122E5C8A000BEA421 /* LaunchScreen.storyboard in Resources */,
 				5DDBB6CE22E5C8A000BEA421 /* Assets.xcassets in Resources */,
-				5DDBB6CC22E5C89F00BEA421 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,8 +266,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DDBB6C922E5C89F00BEA421 /* ViewController.swift in Sources */,
+				5DFAD4A423B4F9BE00AEB766 /* RootView.swift in Sources */,
 				5DDBB6C722E5C89F00BEA421 /* AppDelegate.swift in Sources */,
+				5DFAD4A223B4F9AC00AEB766 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,14 +298,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5DDBB6CA22E5C89F00BEA421 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5DDBB6CB22E5C89F00BEA421 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5DDBB6CF22E5C8A000BEA421 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -549,6 +547,14 @@
 			productName = ShareInspectorModel;
 		};
 		5DFAD49923B4F42600AEB766 /* ShareInspectorUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShareInspectorUI;
+		};
+		5DFAD49D23B4F96C00AEB766 /* ShareInspectorModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShareInspectorModel;
+		};
+		5DFAD49F23B4F96C00AEB766 /* ShareInspectorUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ShareInspectorUI;
 		};
