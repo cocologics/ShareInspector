@@ -12,7 +12,11 @@ final class RootViewController: UIViewController {
     super.loadView()
 
     let state = SharedItems(extensionContext: extensionContext)
-    let rootView = SharedItemsNavigationView(state: state, onFooterTap: { [unowned self] in self.openProCameraWebsite() })
+    let rootView = SharedItemsNavigationView(
+      state: state,
+      onCloseTap: { [unowned self] in self.closeShareExtension() },
+      onFooterTap: { [unowned self] in self.openProCameraWebsite() }
+    )
     hostingVC = UIHostingController(rootView: rootView)
     addChild(hostingVC)
     view.addSubview(hostingVC.view)
@@ -24,6 +28,10 @@ final class RootViewController: UIViewController {
       hostingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
     hostingVC.didMove(toParent: self)
+  }
+
+  private func closeShareExtension() {
+    extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
   }
 
   private func openProCameraWebsite() {

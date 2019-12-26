@@ -3,10 +3,12 @@ import SwiftUI
 
 public struct SharedItemsNavigationView: View {
   var state: SharedItems
+  var onCloseTap: (() -> Void)? = nil
   var onFooterTap: (() -> Void)? = nil
 
-  public init(state: SharedItems, onFooterTap: (() -> Void)? = nil) {
+  public init(state: SharedItems, onCloseTap: (() -> Void)? = nil, onFooterTap: (() -> Void)? = nil) {
     self.state = state
+    self.onCloseTap = onCloseTap
     self.onFooterTap = onFooterTap
   }
 
@@ -21,8 +23,8 @@ public struct SharedItemsNavigationView: View {
           ErrorView(errorMessage: "Unexpected UI state")
         }
       }
-        .navigationBarTitle("Share Inspector", displayMode: .inline)
-        .navigationBarItems(trailing: Button(action: {}) { Text("Done").bold() })
+      .navigationBarTitle("Share Inspector", displayMode: .inline)
+      .navigationBarItems(trailing: Button(action: { self.onCloseTap?() }) { Text("Done").bold() })
     }
   }
 
