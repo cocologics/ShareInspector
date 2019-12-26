@@ -3,16 +3,18 @@ import SwiftUI
 
 public struct SharedItemsNavigationView: View {
   var state: SharedItems
+  var onFooterTap: (() -> Void)? = nil
 
-  public init(state: SharedItems) {
+  public init(state: SharedItems, onFooterTap: (() -> Void)? = nil) {
     self.state = state
+    self.onFooterTap = onFooterTap
   }
 
   public var body: some View {
     NavigationView {
       Group {
         if sharedItems != nil {
-          SharedItemsView(items: sharedItems!)
+          SharedItemsView(items: sharedItems!, onFooterTap: onFooterTap)
         } else if error != nil {
           ErrorView(errorMessage: error!.localizedDescription)
         } else {

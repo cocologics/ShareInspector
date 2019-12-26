@@ -6,6 +6,7 @@ let softHyphen = "\u{ad}"
 
 struct SharedItemsView: View {
   var items: [SharedItem]
+  var onFooterTap: (() -> Void)? = nil
 
   var body: some View {
     List {
@@ -42,6 +43,8 @@ struct SharedItemsView: View {
           }
         }
       }
+
+      ListFooter(onTap: { self.onFooterTap?() })
     }
     .listStyle(GroupedListStyle())
   }
