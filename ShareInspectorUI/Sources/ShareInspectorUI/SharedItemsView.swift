@@ -11,11 +11,7 @@ struct SharedItemsView: View {
   var body: some View {
     List {
       Section {
-        HStack {
-          Text("Number of shared items")
-          Spacer()
-          Text("\(items.count)")
-        }
+        SharedItemProperty(label: "Number of shared items", plainText: "\(items.count)")
       }
 
       ForEach(items.numbered(startingAt: 1)) { i in

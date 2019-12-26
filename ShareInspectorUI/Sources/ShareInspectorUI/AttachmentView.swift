@@ -11,6 +11,7 @@ struct AttachmentView: View {
     Group {
       HStack(alignment: .top) {
         Text("Preview Image")
+          .bold()
         Spacer()
         if previewImageState.isLoading {
           Rectangle()
