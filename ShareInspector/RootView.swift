@@ -2,7 +2,7 @@ import ShareInspectorUI
 import SwiftUI
 
 struct RootView: View {
-  @State private var sharedItem: SharedItem? = nil
+  @State private var itemToShare: ItemToShare? = nil
 
   var body: some View {
     ScrollView {
@@ -28,27 +28,27 @@ struct RootView: View {
           """)
         ShareButton(
           text: "Share a URL",
-          action: { self.sharedItem = .url(URL(string: "https://www.procamera-app.com")!) }
+          action: { self.itemToShare = .url(URL(string: "https://www.procamera-app.com")!) }
         )
         ShareButton(
           text: "Share a String",
-          action: { self.sharedItem = .string("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.") }
+          action: { self.itemToShare = .string("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.") }
         )
         ShareButton(
           text: "Share a Photo (as UIImage)",
-          action: { self.sharedItem = .image(UIImage(contentsOfFile: Bundle.main.path(forResource: "city_lights_africa_8k", ofType: "jpg")!)!) }
+          action: { self.itemToShare = .image(UIImage(contentsOfFile: Bundle.main.path(forResource: "city_lights_africa_8k", ofType: "jpg")!)!) }
         )
         ShareButton(
           text: "Share a Photo (as a File URL)",
-          action: { self.sharedItem = .file(Bundle.main.url(forResource: "city_lights_africa_8k", withExtension: "jpg")!) }
+          action: { self.itemToShare = .file(Bundle.main.url(forResource: "city_lights_africa_8k", withExtension: "jpg")!) }
         )
 
         Spacer()
       }
       .multilineTextAlignment(.leading)
       .padding()
-      .sheet(item: $sharedItem, onDismiss: { self.sharedItem = nil }) { item in
-        ShareSheet(sharedItems: [item.unboxed])
+      .sheet(item: $itemToShare, onDismiss: { self.itemToShare = nil }) { item in
+        ShareSheet(sharedItems: [item.eraseToAny()])
       }
     }
   }
@@ -74,7 +74,7 @@ struct RootView_Previews: PreviewProvider {
   }
 }
 
-enum SharedItem: Identifiable {
+enum ItemToShare: Identifiable {
   case url(URL)
   case string(String)
   case image(UIImage)
@@ -89,7 +89,7 @@ enum SharedItem: Identifiable {
     }
   }
 
-  var unboxed: Any {
+  func eraseToAny() -> Any {
     switch self {
     case .url(let url): return url
     case .string(let string): return string
