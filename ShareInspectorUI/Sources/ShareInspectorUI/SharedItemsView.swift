@@ -14,27 +14,27 @@ struct SharedItemsView: View {
         SharedItemProperty(label: "Number of shared items", plainText: "\(items.count)")
       }
 
-      ForEach(items.numbered(startingAt: 1)) { i in
+      ForEach(items.numbered(startingAt: 1), id: \.item.id) { (item, number) in
         Group {
-          Section(header: Text("Item \(i.number) (NSExtensionItem)")) {
-            SharedItemProperty(label: "attributed\(softHyphen)Title", richText: i.item.attributedTitle)
-            SharedItemProperty(label: "attributed\(softHyphen)Content\(softHyphen)Text", richText: i.item.attributedContentText)
-            SharedItemProperty(label: "Number of attachments", plainText: "\(i.item.attachments.count)")
-            if i.item.userInfo != nil {
+          Section(header: Text("NSExtensionItem \(number) of \(self.items.count)").bold()) {
+            SharedItemProperty(label: "attributed\(softHyphen)Title", richText: item.attributedTitle)
+            SharedItemProperty(label: "attributed\(softHyphen)Content\(softHyphen)Text", richText: item.attributedContentText)
+            SharedItemProperty(label: "Number of attachments", plainText: "\(item.attachments.count)")
+            if item.userInfo != nil {
               NavigationLink(
-                destination: DictionaryListView(dictionary: i.item.userInfo!)
+                destination: DictionaryListView(dictionary: item.userInfo!)
                   .navigationBarTitle("NSExtensionItem\(softHyphen).userInfo")
               ) {
-                SharedItemProperty(label: "userInfo", plainText: "\(i.item.userInfo!.count) key/value pairs")
+                SharedItemProperty(label: "userInfo", plainText: "\(item.userInfo!.count) key/value pairs")
               }
             } else {
               SharedItemProperty(label: "userInfo", plainText: nil)
             }
           }
 
-          ForEach(i.item.attachments.numbered(startingAt: 1)) { a in
-            Section(header: Text("Item \(i.number) · Attachment \(a.number) of \(i.item.attachments.count) (NSItemProvider)")) {
               AttachmentView(attachment: a.item)
+          ForEach(item.attachments.numbered(startingAt: 1), id: \.item.id) { (attachment, number) in
+            Section(header: Text("Item \(number) · Attachment \(number) of \(item.attachments.count) (NSItemProvider)").bold()) {
             }
           }
         }
