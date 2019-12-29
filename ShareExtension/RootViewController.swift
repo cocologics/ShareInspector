@@ -6,19 +6,16 @@ import UIKit
 
 @objc(RootViewController)
 final class RootViewController: UIViewController {
-  var hostingVC: UIHostingController<SharedItemsNavigationView>!
-
   override func loadView() {
     super.loadView()
     view.tintColor = UIColor(named: "pcTintColor")!
 
-    let state = SharedItems(extensionContext: extensionContext)
+    let store = Store(state: SharedItems(extensionContext: extensionContext))
     let rootView = SharedItemsNavigationView(
-      state: state,
       onCloseTap: { [unowned self] in self.closeShareExtension() },
       onFooterTap: { [unowned self] in self.openProCameraWebsite() }
-    )
-    hostingVC = UIHostingController(rootView: rootView)
+    ).environmentObject(store)
+    let hostingVC = UIHostingController(rootView: rootView)
     addChild(hostingVC)
     view.addSubview(hostingVC.view)
     hostingVC.view.translatesAutoresizingMaskIntoConstraints = false

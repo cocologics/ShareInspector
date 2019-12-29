@@ -2,12 +2,11 @@ import ShareInspectorModel
 import SwiftUI
 
 public struct SharedItemsNavigationView: View {
-  var state: SharedItems
+  @EnvironmentObject var store: Store
   var onCloseTap: (() -> Void)? = nil
   var onFooterTap: (() -> Void)? = nil
 
-  public init(state: SharedItems, onCloseTap: (() -> Void)? = nil, onFooterTap: (() -> Void)? = nil) {
-    self.state = state
+  public init(onCloseTap: (() -> Void)? = nil, onFooterTap: (() -> Void)? = nil) {
     self.onCloseTap = onCloseTap
     self.onFooterTap = onFooterTap
   }
@@ -29,14 +28,14 @@ public struct SharedItemsNavigationView: View {
   }
 
   var sharedItems: [SharedItem]? {
-    switch state.state {
+    switch store.state.state {
     case .success(let items): return items
     case .failure: return nil
     }
   }
 
   var error: ShareInspectorError? {
-    switch state.state {
+    switch store.state.state {
     case .success: return nil
     case .failure(let error): return error
     }

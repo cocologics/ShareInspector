@@ -1,12 +1,15 @@
 import Foundation
 
 public enum ShareInspectorError: Swift.Error, CustomNSError {
+  case unknown
   case noExtensionContext
   case unexpectedItemType([Any])
   case unableToCastToUIImage(actualType: String)
 
   var errorMessage: String {
     switch self {
+    case .unknown:
+      return "Unknown Error."
     case .noExtensionContext:
       return "Share extension received no NSExtensionContext."
     case .unexpectedItemType(let items):
@@ -20,6 +23,7 @@ public enum ShareInspectorError: Swift.Error, CustomNSError {
 
   public var errorCode: Int {
     switch self {
+    case .unknown: return -1
     case .noExtensionContext: return 1
     case .unexpectedItemType: return 2
     case .unableToCastToUIImage: return 3

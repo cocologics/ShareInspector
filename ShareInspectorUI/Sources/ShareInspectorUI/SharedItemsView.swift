@@ -5,12 +5,13 @@ import SwiftUI
 let softHyphen = "\u{ad}"
 
 struct SharedItemsView: View {
+  @EnvironmentObject var store: Store
   var items: [SharedItem]
   var onFooterTap: (() -> Void)? = nil
 
   var body: some View {
     List {
-      Section {
+      Section(footer: Text("The NSExtensionItems passed to the Share Extension via NSExtensionContext.inputItems.")) {
         SharedItemProperty(label: "Number of shared items", plainText: "\(items.count)")
       }
 
@@ -32,9 +33,17 @@ struct SharedItemsView: View {
             }
           }
 
-              AttachmentView(attachment: a.item)
           ForEach(item.attachments.numbered(startingAt: 1), id: \.item.id) { (attachment, number) in
             Section(header: Text("Item \(number) · Attachment \(number) of \(item.attachments.count) (NSItemProvider)").bold()) {
+              AttachmentView(
+                attachment: attachment,
+                loadPreviewImage: { preferredSize in
+                  self.store.loadPreviewImage(item: item.id, attachment: attachment.id, preferredSize: preferredSize)
+                },
+                loadFileRepresentation: { uti in
+                  self.store.loadFileRepresentation(item: item.id, attachment: attachment.id, uti: uti)
+                }
+              )
             }
           }
         }
@@ -71,7 +80,7 @@ struct SharedItemProperty: View {
   var body: some View {
     HStack(alignment: value?.richText != nil ? .top : .firstTextBaseline) {
       Text(label)
-        .bold()
+        .font(.callout)
         .frame(minWidth: 100, alignment: .leading)
       Spacer()
       if value?.richText != nil {

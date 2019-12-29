@@ -22,4 +22,24 @@ public struct SharedItem: Identifiable {
       userInfo: extensionItem.userInfo  as? [String: Any]
     )
   }
+
+  /// Provides mutating access to an `Attachment` by its id.
+  ///
+  /// - Note: Does nothing for non-existent attachment ids
+  ///   (i.e. no new attachment will be inserted).
+  public subscript(attachment id: Attachment.ID) -> Attachment? {
+    get {
+      attachments.first(where: { $0.id == id })
+    }
+    set {
+      guard let attachmentIndex = attachments.firstIndex(where: { $0.id == id }) else {
+        return
+      }
+      if let newValue = newValue {
+        attachments[attachmentIndex] = newValue
+      } else {
+        attachments.remove(at: attachmentIndex)
+      }
+    }
+  }
 }

@@ -3,7 +3,14 @@ import SwiftUI
 
 struct AttachmentView: View {
   var attachment: Attachment
-  @State private var previewImageState: PreviewImageState = .loading
+  var loadPreviewImage: ((_ preferredSize: CGSize) -> Void)?
+  var loadFileRepresentation: ((_ uti: String) -> Void)?
+
+  @State private var selectedUTIForQuickLook: String? = nil {
+    didSet {
+      print("selectedUTIForQuickLook:", selectedUTIForQuickLook ?? "nil")
+    }
+  }
 
   static var previewImageSize: CGFloat = 120
 
@@ -13,37 +20,54 @@ struct AttachmentView: View {
         Text("Preview Image")
           .bold()
         Spacer()
-        if previewImageState.isLoading {
+        if attachment.previewImage.isNotLoaded || attachment.previewImage.isLoading {
           Rectangle()
             .fill(Color(UIColor.systemGray2))
             .frame(width: Self.previewImageSize, height: Self.previewImageSize)
             .onAppear {
-              self.attachment.loadPreviewImage(CGSize(width: 120, height: 120)) { result in
-                DispatchQueue.main.async {
-                  switch result {
-                  case .success(let image): self.previewImageState = .loaded(image)
-                  case .failure(let error): self.previewImageState = .loadError(error)
-                  case nil: self.previewImageState = .notProvided
-                  }
-                }
-              }
+              self.loadPreviewImage?(CGSize(width: Self.previewImageSize, height: Self.previewImageSize))
           }
-        } else if previewImageState.image != nil {
-          Image(uiImage: previewImageState.image!)
+        } else if attachment.previewImage.image != nil {
+          Image(uiImage: attachment.previewImage.image!)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: Self.previewImageSize, maxHeight: Self.previewImageSize)
-        } else if previewImageState.isNotProvided {
+        } else if attachment.previewImage.isNotProvided {
           Text("(none)")
-        } else if previewImageState.error != nil {
+        } else if attachment.previewImage.error != nil {
           VStack(alignment: .leading) {
-            Text("Error: \(previewImageState.error!.localizedDescription)")
-            Button(action: { self.previewImageState = .loading }) { Text("Retry") }
+            Text("Error: \(attachment.previewImage.error!.localizedDescription)")
+            Button(action: { self.loadPreviewImage?(CGSize(width: Self.previewImageSize, height: Self.previewImageSize)) }) {
+              Text("Retry")
+            }
           }
         }
       }
+
       SharedItemProperty(label: "registered\(softHyphen)Type\(softHyphen)Identifiers", plainText: typeIdentifiersList)
       SharedItemProperty(label: "suggested\(softHyphen)Name", plainText: attachment.suggestedName)
+
+      ForEach(attachment.registeredTypeIdentifiers, id: \.self) { uti in
+        Group {
+          if self.attachment.fileRepresentation(for: uti).isNotLoaded || self.attachment.fileRepresentation(for: uti).loaded != nil {
+            Button(action: {
+              self.selectedUTIForQuickLook = uti
+              if self.attachment.fileRepresentation(for: uti).loaded == nil {
+                self.loadFileRepresentation?(uti)
+              }
+            }) {
+              Text("Load \(uti)")
+            }
+          } else if self.attachment.fileRepresentation(for: uti).loadingProgress != nil {
+            Text("Loading: \(self.attachment.fileRepresentation(for: uti).loadingProgress!, specifier: "%.1f")")
+          } else if self.attachment.fileRepresentation(for: uti).error != nil {
+            Text("Error loading \(uti): \(self.attachment.fileRepresentation(for: uti).error!.localizedDescription)")
+          }
+        }
+      }
+      .sheet(item: self.quickLookFileURL) { url in
+        QuickLook(url: url)
+      }
     }
   }
 
@@ -53,46 +77,53 @@ struct AttachmentView: View {
       .map { line in "\(bullet)\(line)" }
       .joined(separator: "\n")
   }
+
+  private var quickLookFileURL: Binding<URL?> {
+    Binding(
+      get: {
+        guard let uti = self.selectedUTIForQuickLook else {
+          return nil
+        }
+        switch self.attachment.fileRepresentation(for: uti) {
+        case .loaded(let url):
+          return url
+        case .notLoaded, .loading, .error:
+          return nil
+        }
+      },
+      set: { newValue in
+        assert(newValue == nil, "Binding should only ever be set to nil (when sheet is dismissed)")
+        self.selectedUTIForQuickLook = nil
+      }
+    )
+  }
 }
 
-extension AttachmentView {
-  enum PreviewImageState {
-    case loading
-    case notProvided
-    case loaded(UIImage)
-    case loadError(Error)
-
-    var isLoading: Bool { if case .loading = self { return true } else { return false } }
-    var isNotProvided: Bool { if case .notProvided = self { return true } else { return false } }
-    var image: UIImage? { if case .loaded(let image) = self { return image } else { return nil } }
-    var error: Error? { if case .loadError(let error) = self { return error } else { return nil } }
-  }
+extension URL: Identifiable {
+  public var id: String { absoluteString }
 }
 
 struct AttachmentView_Previews: PreviewProvider {
   static var previews: some View {
+    let attachment1 = Attachment(
+      registeredTypeIdentifiers: ["public.jpg", "public.heic"],
+      suggestedName: "IMG_0001.JPG",
+      previewImage: nil
+    )
+    let attachment2 = Attachment(
+      registeredTypeIdentifiers: ["public.jpg", "com.apple.live-photo", "public.heic"],
+      suggestedName: "IMG_0001.JPG",
+      previewImage: .success(UIImage(systemName: "pencil.and.ellipsis.rectangle")!)
+    )
+    let attachment3 = Attachment(
+      registeredTypeIdentifiers: ["public.jpg", "public.heic"],
+      suggestedName: "IMG_0001.JPG",
+      previewImage: .failure(NSError(domain: NSCocoaErrorDomain, code: 999, userInfo: [NSLocalizedDescriptionKey: "Unable to load image: File not found."]))
+    )
     return Group {
-      VStack(spacing: 8) {
-        AttachmentView(attachment: Attachment(
-          registeredTypeIdentifiers: ["public.jpg", "public.heic"],
-          suggestedName: "IMG_0001.JPG",
-          previewImage: nil
-        ))
-      }
-      VStack(spacing: 8) {
-        AttachmentView(attachment: Attachment(
-          registeredTypeIdentifiers: ["public.jpg", "com.apple.live-photo", "public.heic"],
-          suggestedName: "IMG_0001.JPG",
-          previewImage: .success(UIImage(systemName: "pencil.and.ellipsis.rectangle")!)
-        ))
-      }
-      VStack(spacing: 8) {
-        AttachmentView(attachment: Attachment(
-          registeredTypeIdentifiers: ["public.jpg", "public.heic"],
-          suggestedName: "IMG_0001.JPG",
-          previewImage: .failure(NSError(domain: NSCocoaErrorDomain, code: 999, userInfo: [NSLocalizedDescriptionKey: "Unable to load image: File not found."]))
-        ))
-      }
+      AttachmentView(attachment: attachment1)
+      AttachmentView(attachment: attachment2)
+      AttachmentView(attachment: attachment3)
     }
     .padding()
     .previewLayout(.sizeThatFits)
