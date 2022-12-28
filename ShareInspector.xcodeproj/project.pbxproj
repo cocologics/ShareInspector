@@ -11,7 +11,7 @@
 		5DDBB6C722E5C89F00BEA421 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDBB6C622E5C89F00BEA421 /* AppDelegate.swift */; };
 		5DDBB6CE22E5C8A000BEA421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CD22E5C8A000BEA421 /* Assets.xcassets */; };
 		5DDBB6D122E5C8A000BEA421 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBB6CF22E5C8A000BEA421 /* LaunchScreen.storyboard */; };
-		5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5DDBB6EF22E5CA6400BEA421 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5DFAD49823B4F42600AEB766 /* ShareInspectorModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49723B4F42600AEB766 /* ShareInspectorModel */; };
 		5DFAD49A23B4F42600AEB766 /* ShareInspectorUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49923B4F42600AEB766 /* ShareInspectorUI */; };
 		5DFAD49E23B4F96C00AEB766 /* ShareInspectorModel in Frameworks */ = {isa = PBXBuildFile; productRef = 5DFAD49D23B4F96C00AEB766 /* ShareInspectorModel */; };
@@ -34,15 +34,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5DDBB6FD22E5CA6400BEA421 /* Embed App Extensions */ = {
+		5DDBB6FD22E5CA6400BEA421 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed App Extensions */,
+				5DDBB6F922E5CA6400BEA421 /* ShareExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -160,7 +160,7 @@
 				5DDBB6BF22E5C89F00BEA421 /* Sources */,
 				5DDBB6C022E5C89F00BEA421 /* Frameworks */,
 				5DDBB6C122E5C89F00BEA421 /* Resources */,
-				5DDBB6FD22E5CA6400BEA421 /* Embed App Extensions */,
+				5DDBB6FD22E5CA6400BEA421 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -204,7 +204,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "Ole Begemann";
 				TargetAttributes = {
 					5DDBB6C222E5C89F00BEA421 = {
@@ -323,6 +323,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -384,6 +385,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
