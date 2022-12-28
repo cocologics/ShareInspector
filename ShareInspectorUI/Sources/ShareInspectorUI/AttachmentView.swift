@@ -18,9 +18,12 @@ struct AttachmentView: View {
     Group {
       HStack(alignment: .top) {
         Text("Preview Image")
-          .bold()
+          .font(.callout)
         Spacer()
-        if attachment.previewImage.isNotLoaded || attachment.previewImage.isLoading {
+        if attachment.previewImage.isNotProvided {
+          Text("(none provided)")
+            .bold()
+        } else if attachment.previewImage.isNotLoaded || attachment.previewImage.isLoading {
           Rectangle()
             .fill(Color(UIColor.systemGray2))
             .frame(width: Self.previewImageSize, height: Self.previewImageSize)
@@ -32,14 +35,11 @@ struct AttachmentView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: Self.previewImageSize, maxHeight: Self.previewImageSize)
-        } else if attachment.previewImage.isNotProvided {
-          Text("(none)")
         } else if attachment.previewImage.error != nil {
           VStack(alignment: .leading) {
-            Text("Error: \(attachment.previewImage.error!.localizedDescription)")
-            Button(action: { self.loadPreviewImage?(CGSize(width: Self.previewImageSize, height: Self.previewImageSize)) }) {
-              Text("Retry")
-            }
+            Text("⚠️ Error: \(attachment.previewImage.error!.localizedDescription)").bold()
+            Text(" Domain: \((attachment.previewImage.error! as NSError).domain)").font(.caption).foregroundColor(.secondary)
+            Text(" Code: \(String((attachment.previewImage.error! as NSError).code))").font(.caption).foregroundColor(.secondary)
           }
         }
       }
@@ -99,6 +99,7 @@ struct AttachmentView: View {
   }
 }
 
+// TODO: Workaround, not good
 extension URL: Identifiable {
   public var id: String { absoluteString }
 }

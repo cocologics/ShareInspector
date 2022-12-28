@@ -9,10 +9,10 @@ struct RootView: View {
       VStack(alignment: .leading, spacing: 16) {
         Text("Share Inspector")
           .bold()
-          .font(.largeTitle)
+          .font(.title)
           .padding(.top)
         Text("""
-          This app only exists for its share extension; it has no functionality itself.
+          This app has almost no functionality on its own, but it provides a share extension.
 
           To use the extension, open the Share Sheet in any app and select “Inspector” from the Share Sheet.
           """)
@@ -22,25 +22,36 @@ struct RootView: View {
 
         Text("Test Area")
           .bold()
-          .font(.title)
+          .font(.headline)
         Text("""
-          These buttons open Share Sheets for various data types. Useful for testing the extension.
+          Tapping one of these buttons opens a Share Sheet for a specific data type. Handy for testing the extension.
           """)
         ShareButton(
           text: "Share a URL",
-          action: { self.itemToShare = .url(URL(string: "https://www.procamera-app.com")!) }
+          action: {
+            self.itemToShare = .url(URL(string: "https://www.procamera-app.com")!)
+          }
         )
         ShareButton(
           text: "Share a String",
-          action: { self.itemToShare = .string("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.") }
+          action: {
+            self.itemToShare = .string("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+          }
         )
         ShareButton(
           text: "Share a Photo (as UIImage)",
-          action: { self.itemToShare = .image(UIImage(contentsOfFile: Bundle.main.path(forResource: "city_lights_africa_8k", ofType: "jpg")!)!) }
+          action: {
+            let imageURL = Bundle.main.path(forResource: "city_lights_africa_8k", ofType: "jpg")!
+            let image = UIImage(contentsOfFile: imageURL)!
+            self.itemToShare = .image(image)
+          }
         )
         ShareButton(
           text: "Share a Photo (as a File URL)",
-          action: { self.itemToShare = .file(Bundle.main.url(forResource: "city_lights_africa_8k", withExtension: "jpg")!) }
+          action: {
+            let imageURL = Bundle.main.url(forResource: "city_lights_africa_8k", withExtension: "jpg")!
+            self.itemToShare = .file(imageURL)
+          }
         )
 
         Spacer()

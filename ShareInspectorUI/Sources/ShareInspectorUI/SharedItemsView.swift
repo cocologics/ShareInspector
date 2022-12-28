@@ -1,9 +1,6 @@
 import ShareInspectorModel
 import SwiftUI
 
-// Used to insert line breaking hints into long words in text labels.
-let softHyphen = "\u{ad}"
-
 struct SharedItemsView: View {
   @EnvironmentObject var store: Store
   var items: [SharedItem]
@@ -11,16 +8,16 @@ struct SharedItemsView: View {
 
   var body: some View {
     List {
-      Section(footer: Text("The NSExtensionItems passed to the Share Extension via NSExtensionContext.inputItems.")) {
-        SharedItemProperty(label: "Number of shared items", plainText: "\(items.count)")
+      Section {
+        SharedItemProperty(label: "Number of shared items", detailLabel: "NSExtensionContext.inputItems.count", plainText: "\(items.count)")
       }
 
       ForEach(items.numbered(startingAt: 1), id: \.item.id) { (item, number) in
         Group {
-          Section(header: Text("NSExtensionItem \(number) of \(self.items.count)").bold()) {
+          Section(header: Text("Item \(number) of \(self.items.count) (NSExtensionItem)")) {
             SharedItemProperty(label: "attributed\(softHyphen)Title", richText: item.attributedTitle)
             SharedItemProperty(label: "attributed\(softHyphen)Content\(softHyphen)Text", richText: item.attributedContentText)
-            SharedItemProperty(label: "Number of attachments", plainText: "\(item.attachments.count)")
+            SharedItemProperty(label: "Number of attachments", detailLabel: "NSExtensionItem.attachments.count", plainText: "\(item.attachments.count)")
             if item.userInfo != nil {
               NavigationLink(
                 destination: DictionaryListView(dictionary: item.userInfo!)
@@ -34,7 +31,7 @@ struct SharedItemsView: View {
           }
 
           ForEach(item.attachments.numbered(startingAt: 1), id: \.item.id) { (attachment, number) in
-            Section(header: Text("Item \(number) · Attachment \(number) of \(item.attachments.count) (NSItemProvider)").bold()) {
+            Section(header: Text("Item \(number) · Attachment \(number) of \(item.attachments.count) (NSItemProvider)")) {
               AttachmentView(
                 attachment: attachment,
                 loadPreviewImage: { preferredSize in
@@ -65,33 +62,50 @@ struct SharedItemProperty: View {
   }
 
   var label: String
+  var detailLabel: String?
   var value: Value?
 
-  init(label: String, plainText value: String?) {
+  init(label: String, detailLabel: String? = nil, plainText value: String?) {
     self.label = label
+    self.detailLabel = detailLabel
     self.value = value.map(Value.plainText)
   }
 
-  init(label: String, richText value: NSAttributedString?) {
+  init(label: String, detailLabel: String? = nil, richText value: NSAttributedString?) {
     self.label = label
+    self.detailLabel = detailLabel
     self.value = value.map(Value.richText)
   }
 
   var body: some View {
-    HStack(alignment: value?.richText != nil ? .top : .firstTextBaseline) {
-      Text(label)
-        .font(.callout)
-        .frame(minWidth: 100, alignment: .leading)
+    HStack(alignment: hStackAlignment) {
+      VStack(alignment: .leading) {
+        Text(label)
+          .font(.callout)
+        if detailLabel != nil {
+          Text(detailLabel!)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+      }
+      .frame(minWidth: 100, alignment: .leading)
       Spacer()
       if value?.richText != nil {
         AttributedText(text: value!.richText!)
           .layoutPriority(1)
       } else {
         Text(value?.plainText ?? "(nil)")
+          .bold()
           .multilineTextAlignment(.leading)
           .layoutPriority(1)
       }
     }
+  }
+
+  private var hStackAlignment: VerticalAlignment {
+    if value?.richText != nil { return .top }
+    else if detailLabel != nil { return .center }
+    else { return .firstTextBaseline }
   }
 }
 
