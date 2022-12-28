@@ -99,7 +99,9 @@
 				5DDBB6C422E5C89F00BEA421 /* Products */,
 				5DFAD49623B4F42600AEB766 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		5DDBB6C422E5C89F00BEA421 /* Products */ = {
 			isa = PBXGroup;
