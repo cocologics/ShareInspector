@@ -33,10 +33,29 @@ public struct Attachment: Identifiable {
 
   public var loadFileRepresentation: LoadFileRepresentationHandler
   public var fileRepresentations: [String: FileRepresentationState] = [:]
+
+  public enum PreviewImageState {
+    case notLoaded
+    case loading
+    case notProvided
+    case loaded(UIImage)
+    case error(Error)
+  }
+
+  public enum FileRepresentationState {
+    case notLoaded
+    case loading(progress: Double)
+    case loaded(URL)
+    case error(Error)
+  }
 }
 
 extension Attachment {
-  public init(registeredTypeIdentifiers: [String], suggestedName: String?, previewImage: Result<UIImage, Error>?) {
+  public init(
+    registeredTypeIdentifiers: [String],
+    suggestedName: String?,
+    previewImage: Result<UIImage, Error>?
+  ) {
     self.registeredTypeIdentifiers = registeredTypeIdentifiers
     self.suggestedName = suggestedName
     self.loadPreviewImage = { _, callback in callback(previewImage) }
@@ -118,35 +137,5 @@ extension Attachment {
       }
     }
     return handler
-  }
-}
-
-extension Attachment {
-  public enum PreviewImageState {
-    case notLoaded
-    case loading
-    case notProvided
-    case loaded(UIImage)
-    case error(Error)
-
-    public var isNotLoaded: Bool { if case .notLoaded = self { return true } else { return false } }
-    public var isLoading: Bool { if case .loading = self { return true } else { return false } }
-    public var isNotProvided: Bool { if case .notProvided = self { return true } else { return false } }
-    public var image: UIImage? { if case .loaded(let image) = self { return image } else { return nil } }
-    public var error: Error? { if case .error(let error) = self { return error } else { return nil } }
-  }
-}
-
-extension Attachment {
-  public enum FileRepresentationState {
-    case notLoaded
-    case loading(progress: Double)
-    case loaded(URL)
-    case error(Error)
-
-    public var isNotLoaded: Bool { if case .notLoaded = self { return true } else { return false } }
-    public var loadingProgress: Double? { if case .loading(let progress) = self { return progress } else { return nil } }
-    public var loaded: URL? { if case .loaded(let url) = self { return url } else { return nil } }
-    public var error: Error? { if case .error(let error) = self { return error } else { return nil } }
   }
 }

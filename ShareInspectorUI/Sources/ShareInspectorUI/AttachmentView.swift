@@ -6,67 +6,84 @@ struct AttachmentView: View {
   var loadPreviewImage: ((_ preferredSize: CGSize) -> Void)?
   var loadFileRepresentation: ((_ uti: String) -> Void)?
 
-  @State private var selectedUTIForQuickLook: String? = nil {
+  @State private var quickLookUTI: String? = nil {
     didSet {
-      print("selectedUTIForQuickLook:", selectedUTIForQuickLook ?? "nil")
+      print("quickLookUTI:", quickLookUTI ?? "nil")
     }
   }
 
   static var previewImageSize: CGFloat = 120
 
   var body: some View {
-    Group {
-      HStack(alignment: .top) {
-        Text("Preview Image")
-          .font(.callout)
-        Spacer()
-        if attachment.previewImage.isNotProvided {
-          Text("(none provided)")
-            .bold()
-        } else if attachment.previewImage.isNotLoaded || attachment.previewImage.isLoading {
-          Rectangle()
-            .fill(Color(UIColor.systemGray2))
-            .frame(width: Self.previewImageSize, height: Self.previewImageSize)
-            .onAppear {
-              self.loadPreviewImage?(CGSize(width: Self.previewImageSize, height: Self.previewImageSize))
-          }
-        } else if attachment.previewImage.image != nil {
-          Image(uiImage: attachment.previewImage.image!)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: Self.previewImageSize, maxHeight: Self.previewImageSize)
-        } else if attachment.previewImage.error != nil {
-          VStack(alignment: .leading) {
-            Text("⚠️ Error: \(attachment.previewImage.error!.localizedDescription)").bold()
-            Text(" Domain: \((attachment.previewImage.error! as NSError).domain)").font(.caption).foregroundColor(.secondary)
-            Text(" Code: \(String((attachment.previewImage.error! as NSError).code))").font(.caption).foregroundColor(.secondary)
-          }
+    HStack(alignment: .top) {
+      Text("Preview Image")
+        .font(.callout)
+      Spacer()
+      previewImage
+    }
+
+    SharedItemProperty(
+      label: "registered\(softHyphen)Type\(softHyphen)Identifiers",
+      plainText: typeIdentifiersList
+    )
+    SharedItemProperty(
+      label: "suggested\(softHyphen)Name",
+      plainText: attachment.suggestedName
+    )
+
+    ForEach(attachment.registeredTypeIdentifiers, id: \.self) { uti in
+      switch attachment.fileRepresentation(for: uti) {
+      case .notLoaded:
+        Button("Load \(uti)") {
+          quickLookUTI = uti
+          loadFileRepresentation?(uti)
         }
+      case .loaded(_):
+        Button("Load \(uti)") {
+          quickLookUTI = uti
+        }
+      case .loading(progress: let progress):
+        Text("Loading: \(progress, specifier: "%.1f")")
+      case .error(let error):
+        Text("Error loading \(uti): \(error.localizedDescription)")
+      }
+    }
+    .sheet(item: quickLookFileURL) { url in
+      QuickLook(url: url)
+    }
+  }
+
+  @ViewBuilder private var previewImage: some View {
+    switch attachment.previewImage {
+    case .notProvided:
+      Text("(none provided)")
+        .bold()
+
+    case .notLoaded, .loading:
+      let size = CGSize(width: Self.previewImageSize, height: Self.previewImageSize)
+      Rectangle()
+        .fill(Color(uiColor: .systemGray2))
+        .frame(width: size.width, height: size.height)
+        .onAppear {
+          self.loadPreviewImage?(size)
       }
 
-      SharedItemProperty(label: "registered\(softHyphen)Type\(softHyphen)Identifiers", plainText: typeIdentifiersList)
-      SharedItemProperty(label: "suggested\(softHyphen)Name", plainText: attachment.suggestedName)
+    case .loaded(let image):
+      Image(uiImage: image)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(maxWidth: Self.previewImageSize, maxHeight: Self.previewImageSize)
 
-      ForEach(attachment.registeredTypeIdentifiers, id: \.self) { uti in
-        Group {
-          if self.attachment.fileRepresentation(for: uti).isNotLoaded || self.attachment.fileRepresentation(for: uti).loaded != nil {
-            Button(action: {
-              self.selectedUTIForQuickLook = uti
-              if self.attachment.fileRepresentation(for: uti).loaded == nil {
-                self.loadFileRepresentation?(uti)
-              }
-            }) {
-              Text("Load \(uti)")
-            }
-          } else if self.attachment.fileRepresentation(for: uti).loadingProgress != nil {
-            Text("Loading: \(self.attachment.fileRepresentation(for: uti).loadingProgress!, specifier: "%.1f")")
-          } else if self.attachment.fileRepresentation(for: uti).error != nil {
-            Text("Error loading \(uti): \(self.attachment.fileRepresentation(for: uti).error!.localizedDescription)")
-          }
-        }
-      }
-      .sheet(item: self.quickLookFileURL) { url in
-        QuickLook(url: url)
+    case .error(let error):
+      VStack(alignment: .leading) {
+        Text("⚠️ Error: \(error.localizedDescription)")
+          .bold()
+        Text("Domain: \((error as NSError).domain)")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        Text("Code: \(String((error as NSError).code))")
+          .font(.caption)
+          .foregroundColor(.secondary)
       }
     }
   }
@@ -81,7 +98,7 @@ struct AttachmentView: View {
   private var quickLookFileURL: Binding<URL?> {
     Binding(
       get: {
-        guard let uti = self.selectedUTIForQuickLook else {
+        guard let uti = self.quickLookUTI else {
           return nil
         }
         switch self.attachment.fileRepresentation(for: uti) {
@@ -93,7 +110,7 @@ struct AttachmentView: View {
       },
       set: { newValue in
         assert(newValue == nil, "Binding should only ever be set to nil (when sheet is dismissed)")
-        self.selectedUTIForQuickLook = nil
+        self.quickLookUTI = nil
       }
     )
   }
@@ -121,13 +138,18 @@ struct AttachmentView_Previews: PreviewProvider {
       suggestedName: "IMG_0001.JPG",
       previewImage: .failure(NSError(domain: NSCocoaErrorDomain, code: 999, userInfo: [NSLocalizedDescriptionKey: "Unable to load image: File not found."]))
     )
-    return Group {
-      AttachmentView(attachment: attachment1)
-      AttachmentView(attachment: attachment2)
-      AttachmentView(attachment: attachment3)
+    return List {
+      Section {
+        AttachmentView(attachment: attachment1)
+      }
+      Section {
+        AttachmentView(attachment: attachment2)
+      }
+      Section {
+        AttachmentView(attachment: attachment3)
+      }
     }
-    .padding()
-    .previewLayout(.sizeThatFits)
+    .listStyle(.grouped)
   }
 }
 

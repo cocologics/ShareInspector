@@ -14,10 +14,16 @@ public struct ShareSheet: UIViewControllerRepresentable {
     self.sharedItems = sharedItems
   }
 
-  public func makeUIViewController(context: UIViewControllerRepresentableContext<ShareSheet>) -> UIActivityViewController {
+  public func makeUIViewController(
+    context: UIViewControllerRepresentableContext<ShareSheet>
+  ) -> UIActivityViewController {
     UIActivityViewController(activityItems: sharedItems, applicationActivities: nil)
   }
 
-  public func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ShareSheet>) {
+  public func updateUIViewController(
+    _ uiViewController: UIActivityViewController,
+    context: UIViewControllerRepresentableContext<ShareSheet>
+  ) {
+    // Nothing to do.
   }
 }

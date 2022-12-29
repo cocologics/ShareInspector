@@ -4,40 +4,36 @@ import SwiftUI
 public struct SharedItemsNavigationView: View {
   @EnvironmentObject var store: Store
   var onCloseTap: (() -> Void)? = nil
-  var onFooterTap: (() -> Void)? = nil
 
-  public init(onCloseTap: (() -> Void)? = nil, onFooterTap: (() -> Void)? = nil) {
+  public init(onCloseTap: (() -> Void)? = nil) {
     self.onCloseTap = onCloseTap
-    self.onFooterTap = onFooterTap
   }
 
   public var body: some View {
-    NavigationView {
+    NavigationStack {
       Group {
-        if sharedItems != nil {
-          SharedItemsView(items: sharedItems!, onFooterTap: onFooterTap)
-        } else if error != nil {
-          ErrorView(errorMessage: error!.localizedDescription)
-        } else {
-          ErrorView(errorMessage: "Unexpected UI state")
+        switch store.state.state {
+        case .success(let sharedItems):
+          SharedItemsView(items: sharedItems)
+        case .failure(let error):
+          ErrorView(errorMessage: error.localizedDescription)
         }
       }
-      .navigationBarTitle("Share Inspector", displayMode: .inline)
-      .navigationBarItems(trailing: Button(action: { self.onCloseTap?() }) { Text("Done").bold() })
+      .navigationTitle("Share Inspector")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .confirmationAction) {
+          Button { onCloseTap?() } label: { Text("Done").bold() }
+        }
+      }
     }
   }
+}
 
-  var sharedItems: [SharedItem]? {
-    switch store.state.state {
-    case .success(let items): return items
-    case .failure: return nil
-    }
-  }
-
-  var error: ShareInspectorError? {
-    switch store.state.state {
-    case .success: return nil
-    case .failure(let error): return error
-    }
+struct SharedItemsNavigationView_Previews: PreviewProvider {
+  static var previews: some View {
+    let store = Store(state: SharedItems(state: .success([.sample])))
+    SharedItemsNavigationView()
+      .environmentObject(store)
   }
 }

@@ -22,15 +22,16 @@ struct DictionaryListView: View {
         }
       }
     }
-    .listStyle(GroupedListStyle())
+    .listStyle(.grouped)
   }
 }
 
 struct DictionaryListView_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationView {
+    NavigationStack {
       DictionaryListView(dictionary: ["Key 1": "Value 1", "Key 2": 42])
-        .navigationBarTitle("Preview", displayMode: .inline)
+        .navigationTitle("Preview")
+        .navigationBarTitleDisplayMode(.inline)
     }
   }
 }

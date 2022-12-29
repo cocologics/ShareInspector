@@ -42,13 +42,17 @@ public struct SharedItems {
     }
   }
 
-  private static func parseNSExtensionContext(_ extensionContext: NSExtensionContext?) -> Result<[SharedItem], ShareInspectorError> {
+  private static func parseNSExtensionContext(
+    _ extensionContext: NSExtensionContext?
+  ) -> Result<[SharedItem], ShareInspectorError> {
     guard let extensionContext = extensionContext else {
       return .failure(.noExtensionContext)
     }
     guard let sharedItems = extensionContext.inputItems as? [NSExtensionItem],
-      sharedItems.count == extensionContext.inputItems.count else {
-        return .failure(.unexpectedItemType(extensionContext.inputItems.filter { $0 as? NSExtensionItem == nil }))
+      sharedItems.count == extensionContext.inputItems.count
+    else {
+      let items = extensionContext.inputItems.filter { $0 as? NSExtensionItem == nil }
+      return .failure(.unexpectedItemType(items))
     }
     return .success(sharedItems.map(SharedItem.init(nsExtensionItem:)))
   }

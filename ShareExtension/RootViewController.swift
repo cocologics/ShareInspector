@@ -12,8 +12,7 @@ final class RootViewController: UIViewController {
 
     let store = Store(state: SharedItems(extensionContext: extensionContext))
     let rootView = SharedItemsNavigationView(
-      onCloseTap: { [unowned self] in self.closeShareExtension() },
-      onFooterTap: { [unowned self] in self.openProCameraWebsite() }
+      onCloseTap: { [unowned self] in self.closeShareExtension() }
     ).environmentObject(store)
     let hostingVC = UIHostingController(rootView: rootView)
     addChild(hostingVC)
@@ -30,17 +29,5 @@ final class RootViewController: UIViewController {
 
   private func closeShareExtension() {
     extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-  }
-
-  private func openProCameraWebsite() {
-    // App extensions can't call UIApplication.shared.open(_:options:completionHandler:).
-    // Use SFSafariViewController.
-    let url = URL(string: "https://www.procamera-app.com")!
-    let safari = SFSafariViewController(url: url)
-    safari.modalPresentationStyle = .fullScreen
-    // TODO: This doesn't seem to work. SFSafariViewController uses white status bar text
-    // on a light background in light mode.
-    safari.modalPresentationCapturesStatusBarAppearance = true
-    present(safari, animated: true, completion: nil)
   }
 }

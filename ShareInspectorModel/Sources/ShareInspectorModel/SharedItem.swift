@@ -7,7 +7,12 @@ public struct SharedItem: Identifiable {
   public var attachments: [Attachment]
   public var userInfo: [String: Any]?
 
-  public init(attributedTitle: NSAttributedString?, attributedContentText: NSAttributedString?, attachments: [Attachment], userInfo: [String: Any]?) {
+  public init(
+    attributedTitle: NSAttributedString?,
+    attributedContentText: NSAttributedString?,
+    attachments: [Attachment],
+    userInfo: [String: Any]?
+  ) {
     self.attributedTitle = attributedTitle
     self.attributedContentText = attributedContentText
     self.attachments = attachments
