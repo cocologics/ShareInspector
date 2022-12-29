@@ -12,7 +12,7 @@ Made by Cocologics, makers of [ProCamera](https://www.procamera-app.com).
 
 ## Requirements
 
-iOS 12.0 or later.<br>
+iOS 16.0 or later.<br>
 No dependencies.
 
 ## Screenshots
